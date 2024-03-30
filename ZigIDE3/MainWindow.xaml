@@ -25,6 +25,12 @@
                 <MenuItem Header="Kopieren" />
                 <MenuItem Header="Einfügen" />
             </MenuItem>
+            <MenuItem Header="Hilfe">
+                <MenuItem Header="Info" Click="Info_Click" />
+                <Separator />
+                <MenuItem Header="Lizenz" />
+            </MenuItem>
+
         </Menu>
 
 
