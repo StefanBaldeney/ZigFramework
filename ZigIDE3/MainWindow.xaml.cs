@@ -48,8 +48,13 @@ namespace ZigIDE3
 
         private void FilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            OnPropertyChanged(nameof(Content));
+            this.ZigFile = e.AddedItems[0].ToString();
+
+            OnPropertyChanged(nameof(SourceCode));
         }
+
+        // file ohne path
+        public string ZigFile { get; set; }
 
         private void LoadFilesFromDirectory(string path)
         {
@@ -93,14 +98,18 @@ namespace ZigIDE3
             }
         }
 
-        static void p(string path)
+        void Compile(string path)
         {
+            var args = "build-exe " + path;
+
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
-                Arguments = "zig version",
+                WorkingDirectory = Properties.Settings.Default.ZigPath,
+                FileName = "zig",
+                Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 CreateNoWindow = true
             };
 
@@ -110,17 +119,26 @@ namespace ZigIDE3
                 {
                     string result = reader.ReadToEnd();
                     Console.WriteLine(result);
+
+                    this.output = result;
+                }
+
+                using (StreamReader reader = process.StandardError)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Error: " + result);
                 }
             }
         }
         
         public void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            string path = @"C:\Users\Stefa\source\repos\zig3\" + FilesListBox.SelectedItem.ToString();
+            //string path = @"C:\Users\Stefa\source\repos\zig3\" + FilesListBox.SelectedItem.ToString();
+            string path = FilesListBox.SelectedItem.ToString();
 
             try
             {
-                p(path);
+                Compile(path);
                 //Process.Start(path);
             }
             catch (Exception ex)
@@ -129,13 +147,19 @@ namespace ZigIDE3
             }
         }
 
-        #region Properties
-
-        public string Content
+        public void Kompilieren_Click(object sender, RoutedEventArgs e)
         {
-            get;
-            set;
+            var zigin = Properties.Settings.Default.ZigPath;
+            var zigout = Properties.Settings.Default.ZigOut;
+
+            var absolutePath = Path.Combine(zigin, this.ZigFile);
+
+            Compile(absolutePath);
+
+            OnPropertyChanged(nameof(ZigOutput));
         }
+
+        #region Properties
 
         public IEnumerable<string> CommandItems => GetCommands();
 
@@ -144,7 +168,26 @@ namespace ZigIDE3
             return new string[] { "Apfel", "Birne"};
         }
 
-        public string Content1 => GetContent();
+        private string content;
+        private string output;
+
+        public string ZigOutput => output;
+
+        public string SourceCode
+        {
+            get { return GetContent(); }
+            set
+            {
+                    content = value;
+                    SetContent();
+                    //OnPropertyChanged(nameof(SourceCode));
+            }
+        }
+
+        private void SetContent()
+        {
+            // in die Datei schreiben
+        }
 
         private string GetContent()
         {
@@ -152,17 +195,22 @@ namespace ZigIDE3
 
             try
             {
-                var filePath = FilesListBox.SelectedValue.ToString();
-                var absolutePath = Path.Combine(Properties.Settings.Default.ZigPath, filePath);
-                content = File.ReadAllText(absolutePath);
+                var filePath = FilesListBox.SelectedValue?.ToString();
+
+                if (filePath != null)
+                {
+                    var absolutePath = Path.Combine(Properties.Settings.Default.ZigPath, filePath);
+                    content = File.ReadAllText(absolutePath);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Laden der Dateien: {ex.Message}");
-                content = string.Empty;
+                //MessageBox.Show($"Fehler beim Laden der Dateien: {ex.Message}");
+                //content = string.Empty;
             }
             finally
             {
+                // nicht hier OnPropertyChanged("Content");
             }
 
             return content;

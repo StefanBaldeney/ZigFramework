@@ -33,7 +33,7 @@
                 <MenuItem Header="Einfügen" />
             </MenuItem>
             <MenuItem Header="Erstellen">
-                <MenuItem Header="Kompilieren" />
+                <MenuItem Header="Kompilieren" Click="Kompilieren_Click" />
                 <MenuItem Header="Ausführen" />
                 <MenuItem Header="Debuggen" />
             </MenuItem>
@@ -77,11 +77,14 @@
                     <RowDefinition Height="Auto" MinHeight="20"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Text="{Binding Content}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
+                <TextBox Grid.Row="0" Text="{Binding SourceCode, UpdateSourceTrigger=PropertyChanged}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
                 
                 <GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
                 
-                <TextBlock Grid.Row="2" Margin="0" TextWrapping="Wrap">
+                <TextBlock Grid.Row="2" 
+                           Text="{Binding ZigOutput}"
+                           Margin="0" 
+                           TextWrapping="Wrap">
 
                 </TextBlock>
             </Grid>
