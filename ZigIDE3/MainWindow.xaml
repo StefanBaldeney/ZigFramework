@@ -5,10 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZigIDE3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
+        Title="MainWindow" Height="768" Width="1024">
 
-        <Menu DockPanel.Dock="Top">
+   <Grid Background="Orange">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="28"/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0" MinHeight="24">
             <MenuItem Header="Datei">
                 <MenuItem Header="Neu" />
                 <MenuItem Header="Öffnen..." />
@@ -25,14 +32,84 @@
                 <MenuItem Header="Kopieren" />
                 <MenuItem Header="Einfügen" />
             </MenuItem>
+            <MenuItem Header="Erstellen">
+                <MenuItem Header="Kompilieren" />
+                <MenuItem Header="Ausführen" />
+                <MenuItem Header="Debuggen" />
+            </MenuItem>
             <MenuItem Header="Hilfe">
                 <MenuItem Header="Info" Click="Info_Click" />
                 <Separator />
                 <MenuItem Header="Lizenz" />
             </MenuItem>
-
         </Menu>
 
+        <DockPanel Grid.Row="1">
 
-    </DockPanel>
+            <Grid DockPanel.Dock="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ListBox 
+                    x:Name="FilesListBox"
+                    Grid.Column="0" 
+                    Width="200"
+                    MinWidth="80"
+                    
+                    SelectionChanged="FilesListBox_SelectionChanged"
+                    >
+                    <!-- ListBox-Elemente hier hinzufügen -->
+                </ListBox>
+
+                <!-- GridSplitter ermöglicht das Anpassen der Breite der ListBox -->
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+                
+            </Grid>
+
+            <!-- Source, Splitter, Ausgabe -->
+            <Grid DockPanel.Dock="Right">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="Auto" MinHeight="20"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Text="{Binding Content}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
+                
+                <GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+                
+                <TextBlock Grid.Row="2" Margin="0" TextWrapping="Wrap">
+
+                </TextBlock>
+            </Grid>
+
+        </DockPanel>
+       
+        <StatusBar Grid.Column="0" 
+                   Grid.Row="2" 
+                   MinHeight="32"
+                   >
+            <StatusBarItem>
+                <ListBox 
+                    ItemsSource="{Binding CommandItems}"
+                    MinWidth="120" 
+                    Height="Auto"/>
+            </StatusBarItem>
+
+            <StatusBarItem>
+                        <TextBlock Text="." MinWidth="120"/>
+            </StatusBarItem>
+                    <StatusBarItem>
+                        <ProgressBar Value="50" Width="160"/>
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <TextBlock Text="Weitere Infos..." Width="Auto"/>
+                    </StatusBarItem>
+                </StatusBar>
+       
+    </Grid>
+    
 </Window>
