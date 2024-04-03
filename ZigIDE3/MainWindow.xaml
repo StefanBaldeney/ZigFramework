@@ -48,12 +48,13 @@
 
             <Grid DockPanel.Dock="Left">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <ListBox 
+                    HorizontalAlignment="Stretch" 
                     x:Name="FilesListBox"
                     Grid.Column="0" 
                     Width="200"
@@ -65,23 +66,29 @@
                 </ListBox>
 
                 <!-- GridSplitter ermöglicht das Anpassen der Breite der ListBox -->
-                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+                <GridSplitter Grid.Column="1" Width="5" 
+                              ResizeBehavior="PreviousAndNext"/>
                 
             </Grid>
 
             <!-- Source, Splitter, Ausgabe -->
-            <Grid DockPanel.Dock="Right">
+            <Grid 
+                HorizontalAlignment="Stretch" 
+                DockPanel.Dock="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="Auto" MinHeight="20"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Text="{Binding SourceCode, UpdateSourceTrigger=PropertyChanged}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
+                <TextBox Grid.Row="0" 
+                         VerticalAlignment="Stretch"
+                         Text="{Binding SourceCode, UpdateSourceTrigger=PropertyChanged}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
                 
-                <GridSplitter Grid.Row="1" Height="5" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
+                <GridSplitter Grid.Row="1" Height="5" ResizeBehavior="PreviousAndNext"/>
                 
                 <TextBlock Grid.Row="2" 
+                           VerticalAlignment="Stretch"
                            Text="{Binding ZigOutput}"
                            Margin="0" 
                            TextWrapping="Wrap">
