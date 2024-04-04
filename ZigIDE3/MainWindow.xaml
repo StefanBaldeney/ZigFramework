@@ -3,18 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ZigIDE3"
+        xmlns:local="clr-namespace:ZigIDE3.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
 
-   <Grid Background="Orange">
+    <Window.Resources>
+        <local:CodeViewModel x:Key="CodeViewModel"/>
+        <local:CommandViewModel x:Key="CommandViewModel"/>
+        <local:MenuViewModel x:Key="MenuViewModel"/>
+    </Window.Resources>
+
+    <Grid Background="Orange">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="28"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
-        
+
         <Menu Grid.Row="0" MinHeight="24">
             <MenuItem Header="Datei">
                 <MenuItem Header="Neu" />
@@ -68,7 +74,7 @@
                 <!-- GridSplitter ermöglicht das Anpassen der Breite der ListBox -->
                 <GridSplitter Grid.Column="1" Width="5" 
                               ResizeBehavior="PreviousAndNext"/>
-                
+
             </Grid>
 
             <!-- Source, Splitter, Ausgabe -->
@@ -84,9 +90,9 @@
                 <TextBox Grid.Row="0" 
                          VerticalAlignment="Stretch"
                          Text="{Binding SourceCode, UpdateSourceTrigger=PropertyChanged}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
-                
+
                 <GridSplitter Grid.Row="1" Height="5" ResizeBehavior="PreviousAndNext"/>
-                
+
                 <TextBlock Grid.Row="2" 
                            VerticalAlignment="Stretch"
                            Text="{Binding ZigOutput}"
@@ -97,7 +103,7 @@
             </Grid>
 
         </DockPanel>
-       
+
         <StatusBar Grid.Column="0" 
                    Grid.Row="2" 
                    MinHeight="32"
@@ -110,16 +116,16 @@
             </StatusBarItem>
 
             <StatusBarItem>
-                        <TextBlock Text="." MinWidth="120"/>
+                <TextBlock Text="." MinWidth="120"/>
             </StatusBarItem>
-                    <StatusBarItem>
-                        <ProgressBar Value="50" Width="160"/>
-                    </StatusBarItem>
-                    <StatusBarItem>
-                        <TextBlock Text="Weitere Infos..." Width="Auto"/>
-                    </StatusBarItem>
-                </StatusBar>
-       
+            <StatusBarItem>
+                <ProgressBar Value="50" Width="160"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="Weitere Infos..." Width="Auto"/>
+            </StatusBarItem>
+        </StatusBar>
+
     </Grid>
-    
+
 </Window>
