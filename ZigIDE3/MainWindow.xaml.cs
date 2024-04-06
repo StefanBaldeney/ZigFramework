@@ -65,11 +65,11 @@ namespace ZigIDE3
                 DirectoryInfo dir = new DirectoryInfo(path);
                 FileInfo[] files = dir.GetFiles(); // Dateien im Ordner
 
-                FilesListBox.Items.Clear(); // Bestehende Einträge löschen
+                //FilesListBox.Items.Clear(); // Bestehende Einträge löschen
 
                 foreach (FileInfo file in files)
                 {
-                    FilesListBox.Items.Add(file.Name); // Dateiname zur ListBox hinzufügen
+                    //FilesListBox.Items.Add(file.Name); // Dateiname zur ListBox hinzufügen
                 }
             }
             catch (IOException ex)
@@ -136,7 +136,7 @@ namespace ZigIDE3
         public void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             //string path = @"C:\Users\Stefa\source\repos\zig3\" + FilesListBox.SelectedItem.ToString();
-            string path = FilesListBox.SelectedItem.ToString();
+            string path = string.Empty; // FilesListBox.SelectedItem.ToString();
 
             try
             {
@@ -197,7 +197,7 @@ namespace ZigIDE3
 
             try
             {
-                var filePath = FilesListBox.SelectedValue?.ToString();
+                var filePath = string.Empty; // FilesListBox.SelectedValue?.ToString();
 
                 if (filePath != null)
                 {

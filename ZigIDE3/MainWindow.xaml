@@ -13,119 +13,81 @@
         <local:MenuViewModel x:Key="MenuViewModel"/>
     </Window.Resources>
 
-    <Grid Background="Orange">
+    <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="28"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="28"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="28" Height="28"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition MinHeight="32" Height="32"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" MinHeight="24">
-            <MenuItem Header="Datei">
-                <MenuItem Header="Neu" />
-                <MenuItem Header="Öffnen..." />
-                <Separator />
-                <MenuItem Header="Speichern" />
-                <MenuItem Header="Speichern unter..." />
-                <Separator />
-                <MenuItem Header="Beenden" Click="Beenden_Click"/>
-            </MenuItem>
-            <MenuItem Header="Bearbeiten">
-                <MenuItem Header="Rückgängig" />
-                <MenuItem Header="Wiederholen" />
-                <Separator />
-                <MenuItem Header="Kopieren" />
-                <MenuItem Header="Einfügen" />
-            </MenuItem>
-            <MenuItem Header="Erstellen">
-                <MenuItem Header="Kompilieren" Click="Kompilieren_Click" />
-                <MenuItem Header="Ausführen" />
-                <MenuItem Header="Debuggen" />
-            </MenuItem>
-            <MenuItem Header="Hilfe">
-                <MenuItem Header="Info" Click="Info_Click" />
-                <Separator />
-                <MenuItem Header="Lizenz" />
-            </MenuItem>
-        </Menu>
+            <Menu >
+                <Menu.DataContext>
+                    <local:MenuViewModel/>
+                </Menu.DataContext>
 
-        <DockPanel Grid.Row="1">
+                <MenuItem Header="Datei">
+                    <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Bearbeiten"></MenuItem>
+                <MenuItem Header="Erstellen"></MenuItem>
+                <MenuItem Header="Test"></MenuItem>
+                <MenuItem Header="Hilfe">
+                    <MenuItem Header="Version"
+                           Command="{Binding MeinCommand}"
+                          ></MenuItem>
+                </MenuItem>
+            </Menu>
 
-            <Grid DockPanel.Dock="Left">
+            <StatusBar Grid.Row="2">
+                <ComboBox 
+                  DataContext="{StaticResource CommandViewModel}"
+                  ItemsSource="{Binding Befehle}"
+                  MinWidth="120">
+                </ComboBox>
+
+                <Label>egal</Label>
+                <Label>egal2</Label>
+
+            </StatusBar>
+
+            <Grid Grid.Row="1">
+
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MinWidth="60" MaxWidth="240"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <ListBox 
-                    HorizontalAlignment="Stretch" 
-                    x:Name="FilesListBox"
-                    Grid.Column="0" 
-                    Width="200"
-                    MinWidth="80"
-                    
-                    SelectionChanged="FilesListBox_SelectionChanged"
-                    >
-                    <!-- ListBox-Elemente hier hinzufügen -->
-                </ListBox>
+                <!-- Inhalt der linken Spalte -->
+                <TextBox Grid.Column="0" 
+                 Text="Linker Inhalt" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-                <!-- GridSplitter ermöglicht das Anpassen der Breite der ListBox -->
-                <GridSplitter Grid.Column="1" Width="5" 
-                              ResizeBehavior="PreviousAndNext"/>
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 
+                <!-- Inhalt der rechten Spalte -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="24"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*" MinHeight="24"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Row="0" Text="{Binding SourceCode}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <GridSplitter Grid.Row="1" 
+                          Height="5" 
+                          HorizontalAlignment="Stretch" 
+                          ResizeDirection="Rows"/>
+
+                    <TextBox    Grid.Row="2" 
+                        Text="Output" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+
+                </Grid>
             </Grid>
-
-            <!-- Source, Splitter, Ausgabe -->
-            <Grid 
-                HorizontalAlignment="Stretch" 
-                DockPanel.Dock="Right">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="Auto" MinHeight="20"/>
-                </Grid.RowDefinitions>
-
-                <TextBox Grid.Row="0" 
-                         VerticalAlignment="Stretch"
-                         Text="{Binding SourceCode, UpdateSourceTrigger=PropertyChanged}" Margin="0" FontWeight="Normal" AcceptsReturn="True"/>
-
-                <GridSplitter Grid.Row="1" Height="5" ResizeBehavior="PreviousAndNext"/>
-
-                <TextBlock Grid.Row="2" 
-                           VerticalAlignment="Stretch"
-                           Text="{Binding ZigOutput}"
-                           Margin="0" 
-                           TextWrapping="Wrap">
-
-                </TextBlock>
-            </Grid>
-
-        </DockPanel>
-
-        <StatusBar Grid.Column="0" 
-                   Grid.Row="2" 
-                   MinHeight="32"
-                   >
-            <StatusBarItem>
-                <ListBox 
-                    ItemsSource="{Binding CommandItems}"
-                    MinWidth="120" 
-                    Height="Auto"/>
-            </StatusBarItem>
-
-            <StatusBarItem>
-                <TextBlock Text="." MinWidth="120"/>
-            </StatusBarItem>
-            <StatusBarItem>
-                <ProgressBar Value="50" Width="160"/>
-            </StatusBarItem>
-            <StatusBarItem>
-                <TextBlock Text="Weitere Infos..." Width="Auto"/>
-            </StatusBarItem>
-        </StatusBar>
-
+        </Grid>
     </Grid>
 
 </Window>
