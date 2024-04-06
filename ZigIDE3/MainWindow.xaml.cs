@@ -18,7 +18,7 @@ namespace ZigIDE3
             this.Loaded += Window_Loaded;
             this.LocationChanged += Windows_Changed;
 
-            this.DataContext = this;
+            // this.DataContext = this;
         }
         
         private void Windows_Changed(object sender, EventArgs e)
@@ -33,6 +33,8 @@ namespace ZigIDE3
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // return;
+
             // ZigPat
             var path= Properties.Settings.Default.ZigPath;
 
