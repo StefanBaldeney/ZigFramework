@@ -1,12 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using ZigIDE3.Properties;
 
 namespace ZigIDE3.ViewModel
 {
     public class CodeViewModel : INotifyPropertyChanged
     {
+        public CodeViewModel()
+        {
+            var path = Settings.Default.ZigPath;
+
+            if (Directory.Exists(path))
+            {
+                LoadFilesFromZigPathAsync();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _sourceCode;
@@ -29,36 +43,34 @@ namespace ZigIDE3.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
 
-    public class StatusViewModel : INotifyPropertyChanged
-    {
-        public StatusViewModel()
+        private async void LoadFilesFromZigPathAsync()
         {
-            zigPath = Settings.Default.ZigPath;
+            var zigPath = Settings.Default.ZigPath;
+            var list = loadFilesFromZigPath(zigPath);
+            await Task.Delay(500);
+
+            this.dateiListe = list.ToList();
+
+            OnPropertyChanged(nameof(DateiListe));
         }
 
-        public string zigPath;
-        public string ZigPath => zigPath;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private IEnumerable<string> loadFilesFromZigPath(string path)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                DirectoryInfo dir = new DirectoryInfo(path);
+                FileInfo[] files = dir.GetFiles(); // Dateien im Ordner
+
+                var list= new List<string>();
+
+                foreach (FileInfo file in files)
+                {
+                    list.Add(file.Name);
+                }
+
+                return list;
         }
 
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        public void ChangeZigPath(string nachricht)
-        {
-            SetField(ref zigPath, nachricht, nameof(ZigPath));
-        }
+        private IList<string> dateiListe= new List<string>();
+        public IList<string> DateiListe => dateiListe;
     }
 }

@@ -40,9 +40,13 @@
                     <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Hilfe">
+
+                    <MenuItem Header="Zig Dokumentation" Command="{Binding ZigDokumentation}"></MenuItem>
+
                     <MenuItem Header="Version"
-                           Command="{Binding MeinCommand}"
-                          ></MenuItem>
+                              Command="{Binding MeinCommand}"
+                    >
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 
@@ -84,8 +88,13 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Inhalt der linken Spalte -->
-                <TextBox Grid.Column="0" 
-                 Text="Linker Inhalt" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <!--<TextBox Grid.Column="0" 
+                 Text="Dateien in ZigPath:" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
+
+                <ListBox 
+                    ItemsSource ="{Binding DateiListe}"
+                    DataContext="{StaticResource CodeViewModel}"></ListBox>
+
 
                 <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 

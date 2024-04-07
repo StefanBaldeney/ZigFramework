@@ -80,6 +80,7 @@
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="Tool\RelayCommand.cs" />
     <Compile Include="ViewModel\MyEventArgs.cs" />
+    <Compile Include="ViewModel\StatusViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
