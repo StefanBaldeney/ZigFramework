@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZigIDE3.ViewModel"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
 
@@ -93,13 +94,23 @@
 
                 <ListBox 
                     ItemsSource ="{Binding DateiListe}"
-                    DataContext="{StaticResource CodeViewModel}"></ListBox>
+                    DataContext="{StaticResource CodeViewModel}">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="SelectionChanged">
+                            <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                   CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                   />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </ListBox>
 
 
                 <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 
                 <!-- Inhalt der rechten Spalte -->
-                <Grid Grid.Column="2">
+                <Grid 
+                    DataContext="{StaticResource CodeViewModel}"
+                    Grid.Column="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MinHeight="24"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
