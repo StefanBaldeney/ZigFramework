@@ -11,6 +11,7 @@
         <local:CodeViewModel x:Key="CodeViewModel"/>
         <local:CommandViewModel x:Key="CommandViewModel"/>
         <local:MenuViewModel x:Key="MenuViewModel"/>
+        <local:StatusViewModel x:Key="StatusViewModel"/>
     </Window.Resources>
 
     <Grid>
@@ -22,7 +23,9 @@
                 <RowDefinition MinHeight="32" Height="32"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Menu >
+            <Menu
+                x:Name="MyMenu"
+                Grid.Row="0">
                 <Menu.DataContext>
                     <local:MenuViewModel/>
                 </Menu.DataContext>
@@ -43,15 +46,32 @@
                 </MenuItem>
             </Menu>
 
-            <StatusBar Grid.Row="2">
+            <StatusBar 
+                x:Name="MyStatus"
+                Grid.Row="2"
+                DataContext="{StaticResource StatusViewModel}"
+                >
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                
+                <Label Grid.Column="0"
+                       MinWidth="40"
+                       Width="Auto"
+                       Content="{Binding ZigPath}">
+                </Label>
+
                 <ComboBox 
+                    Grid.Column="1"
                   DataContext="{StaticResource CommandViewModel}"
                   ItemsSource="{Binding Befehle}"
                   MinWidth="120">
                 </ComboBox>
-
-                <Label>egal</Label>
-                <Label>egal2</Label>
 
             </StatusBar>
 

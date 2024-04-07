@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using ZigIDE3.ViewModel;
 
 namespace ZigIDE3
 {
@@ -30,9 +31,6 @@ namespace ZigIDE3
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // return;
-
-            // ZigPat
             var path= Properties.Settings.Default.ZigPath;
 
             LoadFilesFromDirectory(path);
@@ -43,6 +41,16 @@ namespace ZigIDE3
             this.Top = top;
             this.Left = left;
 
+            // registriere event ZigPathChanged
+            vmMenu = MyMenu.DataContext as MenuViewModel;
+            vmStatus = MyStatus.DataContext as StatusViewModel;
+
+            vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
+        }
+
+        private void VmMenu_ZigPathChanged(object sender, MyEventArgs e)
+        {
+            vmStatus.ChangeZigPath(e.Nachricht);
         }
 
         private void FilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -139,6 +147,9 @@ namespace ZigIDE3
         
         [Obsolete()]
         private string output;
+
+        private MenuViewModel vmMenu;
+        private StatusViewModel vmStatus;
 
         public string ZigOutput => output;
 
