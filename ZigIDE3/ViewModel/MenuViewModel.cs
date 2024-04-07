@@ -1,5 +1,12 @@
-﻿using System.ComponentModel;
+﻿// © Stefan Brandt
+
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using ZigIDE3.Tool;
 
@@ -8,10 +15,12 @@ namespace ZigIDE3.ViewModel
     public class MenuViewModel : INotifyPropertyChanged
     {
         public ICommand MenuBeendenCommand { get; }
+        public ICommand MenuOptionsCommand { get; }
 
         public MenuViewModel()
         {
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
+            MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -23,8 +32,59 @@ namespace ZigIDE3.ViewModel
 
         private void ExecuteBeendenCommand(object parameter)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
+        private void ExecuteOptionsCommand(object parameter)
+        {
+            var dialog = new FolderBrowserDialog();
+
+            var di = DriveInfo.GetDrives();
+
+            dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+
+            var result = dialog.ShowDialog();
+            // Dateiauswahlfenster
+
+        }
+
+        private void ExcecuteCompile(object parameter)
+        {
+            string path = parameter.ToString();
+
+            var args = "build-exe " + path;
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Properties.Settings.Default.ZigPath,
+                FileName = "zig",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine(result);
+
+                    this.Output = result;
+                }
+
+                using (StreamReader reader = process.StandardError)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Error: " + result);
+                    this.Error = result;
+                }
+            }
+        }
+
+        public string Output { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -100,48 +100,16 @@ namespace ZigIDE3
             }
         }
 
-        void Compile(string path)
-        {
-            var args = "build-exe " + path;
-
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = Properties.Settings.Default.ZigPath,
-                FileName = "zig",
-                Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
-
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine(result);
-
-                    this.output = result;
-                }
-
-                using (StreamReader reader = process.StandardError)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine("Error: " + result);
-                }
-            }
-        }
         
-        public void OpenFile_Click(object sender, RoutedEventArgs e)
+        public void _OpenFile_Click(object sender, RoutedEventArgs e)
         {
             //string path = @"C:\Users\Stefa\source\repos\zig3\" + FilesListBox.SelectedItem.ToString();
             string path = string.Empty; // FilesListBox.SelectedItem.ToString();
 
             try
             {
-                Compile(path);
-                //Process.Start(path);
+                // Compile(path);
+                // Process.Start(path);
             }
             catch (Exception ex)
             {
@@ -156,7 +124,7 @@ namespace ZigIDE3
 
             var absolutePath = Path.Combine(zigin, this.ZigFile);
 
-            Compile(absolutePath);
+            // _Compile(absolutePath);
 
             OnPropertyChanged(nameof(ZigOutput));
         }
@@ -171,6 +139,8 @@ namespace ZigIDE3
         }
 
         private string content;
+        
+        [Obsolete()]
         private string output;
 
         public string ZigOutput => output;
@@ -207,6 +177,7 @@ namespace ZigIDE3
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
                 //MessageBox.Show($"Fehler beim Laden der Dateien: {ex.Message}");
                 //content = string.Empty;
             }
