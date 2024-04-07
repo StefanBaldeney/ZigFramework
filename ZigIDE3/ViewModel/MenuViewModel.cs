@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using ZigIDE3.Properties;
 using ZigIDE3.Tool;
 
 namespace ZigIDE3.ViewModel
@@ -17,10 +18,23 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
 
+        #region Events
+
+        public event EventHandler<MyEventArgs> ZigPathChanged;
+
+        protected virtual void OnMeinEventMitDaten(MyEventArgs e)
+        {
+            ZigPathChanged?.Invoke(this, e);
+        }
+
+        #endregion
+
         public MenuViewModel()
         {
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
             MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
+
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,12 +53,21 @@ namespace ZigIDE3.ViewModel
         {
             var dialog = new FolderBrowserDialog();
 
-            var di = DriveInfo.GetDrives();
+            // var di = DriveInfo.GetDrives();
 
-            dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            var path = Settings.Default.ZigPath;
+
+            // dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            
+            dialog.SelectedPath = path; 
 
             var result = dialog.ShowDialog();
             // Dateiauswahlfenster
+            if (result == DialogResult.OK)
+            {
+                Settings.Default.ZigPath = dialog.SelectedPath;
+                OnMeinEventMitDaten(new MyEventArgs() { Nachricht = dialog.SelectedPath });
+            }
 
         }
 

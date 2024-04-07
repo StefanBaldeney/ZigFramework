@@ -17,8 +17,6 @@ namespace ZigIDE3
             this.Title = "ZigIDE3 by Stefan Brandt";
             this.Loaded += Window_Loaded;
             this.LocationChanged += Windows_Changed;
-
-            // this.DataContext = this;
         }
         
         private void Windows_Changed(object sender, EventArgs e)
@@ -27,7 +25,6 @@ namespace ZigIDE3
 
             Properties.Settings.Default.Left = window.Left;
             Properties.Settings.Default.Top = window.Top;
-
             Properties.Settings.Default.Save();
         }
 
