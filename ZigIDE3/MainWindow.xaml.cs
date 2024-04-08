@@ -16,11 +16,16 @@ namespace ZigIDE3
             InitializeComponent();
             
             this.Title = "ZigIDE3 by Stefan Brandt";
+
+            this.LocationChanged += Windows_LocationChanged;
+
+            // return;
+
             this.Loaded += Window_Loaded;
-            this.LocationChanged += Windows_Changed;
+            
         }
         
-        private void Windows_Changed(object sender, EventArgs e)
+        private void Windows_LocationChanged(object sender, EventArgs e)
         {
             var window = sender as MainWindow;
 
@@ -38,8 +43,8 @@ namespace ZigIDE3
             var top = Properties.Settings.Default.Top;
             var left = Properties.Settings.Default.Left;
 
-            this.Top = top;
-            this.Left = left;
+            this.Top = Math.Max(0,top);
+            this.Left = Math.Max(0, left); 
 
             // registriere event ZigPathChanged
             vmMenu = MyMenu.DataContext as MenuViewModel;
