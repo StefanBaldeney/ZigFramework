@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZigIDE3.ViewModel"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:zigIde3="clr-namespace:ZigIDE3"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024">
 
@@ -123,9 +125,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Inhalt der linken Spalte -->
-                <!--<TextBox Grid.Column="0" 
-                 Text="Dateien in ZigPath:" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
-
+                
                 <ListBox 
                     ItemsSource ="{Binding DateiListe}"
                     DataContext="{StaticResource CodeViewModel}">
@@ -150,11 +150,17 @@
                         <RowDefinition Height="*" MinHeight="24"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <TextBox Grid.Row="0" Text="{Binding SourceCode}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                    <!-- Editor -->
+                    <avalonedit:TextEditor Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <b:Interaction.Behaviors>
+                                <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
+                            </b:Interaction.Behaviors>
+                    </avalonedit:TextEditor>
+                    
                     <GridSplitter Grid.Row="1" 
-                          Height="5" 
-                          HorizontalAlignment="Stretch" 
-                          ResizeDirection="Rows"/>
+                                  Height="5" 
+                                  HorizontalAlignment="Stretch" 
+                                  ResizeDirection="Rows"/>
 
                     <TextBox    Grid.Row="2" 
                         Text="Output" 
