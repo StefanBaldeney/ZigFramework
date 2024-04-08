@@ -50,10 +50,26 @@
                     >
                     </MenuItem>
                     <MenuItem Header="Option">
-                        <MenuItem Header="Debug"></MenuItem>
-                        <MenuItem Header="ReleaseFast"></MenuItem>
-                        <MenuItem Header="ReleaseSafe"></MenuItem>
-                        <MenuItem Header="ReleaseSmall"></MenuItem>
+                        <MenuItem Header="Debug">
+                            <MenuItem.Icon>
+                                <RadioButton Content="egal" IsChecked="True" GroupName="Release"></RadioButton>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="ReleaseFast">
+                            <MenuItem.Icon>
+                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="ReleaseSafe">
+                            <MenuItem.Icon>
+                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="ReleaseSmall">
+                            <MenuItem.Icon>
+                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Test"></MenuItem>
