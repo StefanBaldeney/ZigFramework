@@ -12,7 +12,11 @@ namespace ZigIDE3.ViewModel
             zigPath = Settings.Default.ZigPath;
         }
 
-        public string zigPath;
+
+        private string status = "Bereit";
+        public string Status => status;
+
+        private string zigPath;
         public string ZigPath => zigPath;
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -78,6 +78,7 @@
                 <MenuItem Header="Extras">
                     <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
                 </MenuItem>
+                <MenuItem Header="Git" IsEnabled="False"></MenuItem>
                 <MenuItem Header="Hilfe">
 
                     <MenuItem Header="Zig Dokumentation" Command="{Binding ZigDokumentation}"></MenuItem>
@@ -98,10 +99,17 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                 </Grid>
                 
                 <Label Grid.Column="0"
+                       MinWidth="40"
+                       Width="60"
+                       Content="{Binding Status}"
+                       ></Label>
+
+                <Label Grid.Column="1"
                        MinWidth="40"
                        Width="Auto"
                        Content="{Binding ZigPath}">
@@ -151,7 +159,9 @@
                     </Grid.RowDefinitions>
 
                     <!-- Editor -->
-                    <avalonedit:TextEditor Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <avalonedit:TextEditor 
+                        ShowLineNumbers="True"
+                        Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <b:Interaction.Behaviors>
                                 <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
                             </b:Interaction.Behaviors>

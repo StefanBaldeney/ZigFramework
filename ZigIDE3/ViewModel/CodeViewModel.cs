@@ -57,7 +57,9 @@ namespace ZigIDE3.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand SelectionChangedCommand { get; }
-        
+
+        public ICommand Save { get; }
+
         private string _sourceCode;
         
         public string SourceCode
