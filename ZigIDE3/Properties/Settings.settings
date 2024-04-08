@@ -20,5 +20,8 @@
     <Setting Name="ZigOut" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\ZigOut</Value>
     </Setting>
+    <Setting Name="CurrentZigFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

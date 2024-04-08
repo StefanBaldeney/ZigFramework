@@ -35,10 +35,25 @@
                     <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Bearbeiten"></MenuItem>
-                <MenuItem Header="Erstellen"></MenuItem>
+                <MenuItem Header="Erstellen">
+                    <MenuItem 
+                              Header="Compile" 
+                              Command="{Binding MenuCompileCommand}"
+                              CommandParameter="{Binding ZigFilename}"
+                              >
+                    </MenuItem>
+                    <MenuItem Header="Option">
+                        <MenuItem Header="Debug"></MenuItem>
+                        <MenuItem Header="ReleaseFast"></MenuItem>
+                        <MenuItem Header="ReleaseSafe"></MenuItem>
+                        <MenuItem Header="ReleaseSmall"></MenuItem>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem Header="Test"></MenuItem>
                 <MenuItem Header="Extras">
-                    <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
+                    <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}">
+
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="Hilfe">
 
@@ -103,7 +118,6 @@
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </ListBox>
-
 
                 <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 

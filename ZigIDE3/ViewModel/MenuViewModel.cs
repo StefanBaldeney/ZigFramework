@@ -17,10 +17,12 @@ namespace ZigIDE3.ViewModel
     {
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
+        public ICommand MenuCompileCommand { get; }
 
         #region Events
 
         public event EventHandler<MyEventArgs> ZigPathChanged;
+        public event EventHandler<MyEventArgs> ZigFileCompiled;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
         {
@@ -33,8 +35,7 @@ namespace ZigIDE3.ViewModel
         {
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
             MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
-
-
+            MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -71,11 +72,9 @@ namespace ZigIDE3.ViewModel
 
         }
 
-        private void ExcecuteCompile(object parameter)
+        private void ExecuteCompileCommand(object parameter)
         {
-            string path = parameter.ToString();
-
-            var args = "build-exe " + path;
+            var args = "build-exe " + Settings.Default.CurrentZigFilename;
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {

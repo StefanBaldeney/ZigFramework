@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,9 +31,14 @@ namespace ZigIDE3.ViewModel
         {
             var zigPath = Settings.Default.ZigPath;
 
-            var filePath = Path.Combine(zigPath, obj as string);
+            this.ZigFilename = obj as string;
+            Settings.Default.CurrentZigFilename = this.ZigFilename;
+
+            var filePath = Path.Combine(zigPath, ZigFilename);
             this.SourceCode = loadZigFile(filePath);
         }
+
+        public string ZigFilename { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -98,6 +104,41 @@ namespace ZigIDE3.ViewModel
             }
 
             return null;
+        }
+
+        public async void Compile()
+        {
+            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", "build-exe " + ZigFilename );
+            Console.WriteLine(ausgabe);
+        }
+
+        public async Task<string> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
+        {
+            // Konfiguriere die Startinformationen des Prozesses
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = pfadZumProgramm,
+                Arguments = argumente,
+                UseShellExecute = false, // Ermöglicht die Umleitung der Standardausgabe
+                RedirectStandardOutput = true, // Leitet die Standardausgabe um, sodass sie gelesen werden kann
+                CreateNoWindow = true // Verhindert das Erstellen eines Fensters für den Prozess
+            };
+
+            // Erstelle und starte den Prozess
+            using (Process prozess = new Process())
+            {
+                prozess.StartInfo = startInfo;
+
+                prozess.Start();
+
+                // Lese die Standardausgabe des Prozesses
+                string ausgabe = await prozess.StandardOutput.ReadToEndAsync();
+
+                // Warte, bis der Prozess beendet ist
+                prozess.WaitForExit();
+
+                return ausgabe;
+            }
         }
 
         private IList<string> dateiListe= new List<string>();
