@@ -38,15 +38,28 @@ namespace ZigIDE3.ViewModel
             this.SourceCode = loadZigFile(filePath);
         }
 
+        private void ExecuteSaveZigFileCommand(object o)
+        {
+            try
+            {
+                File.WriteAllText(ZigFilePath, SourceCode);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Ein Fehler ist aufgetreten: {ex.Message}");
+            }
+        }
+
         public string ZigFilename { get; set; }
+
+        public string ZigFilePath => Path.Combine(Settings.Default.ZigPath, ZigFilename);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand SelectionChangedCommand { get; }
         
         private string _sourceCode;
-        private string _output;
-
+        
         public string SourceCode
         {
             get { return _sourceCode; }
@@ -108,7 +121,10 @@ namespace ZigIDE3.ViewModel
 
         public async void Compile()
         {
-            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", "build-exe " + ZigFilename );
+            var releaseArgument= " -O " + Settings.Default.ReleaseType;
+            var arguments = " build-exe " + releaseArgument;
+
+            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
             Console.WriteLine(ausgabe);
         }
 

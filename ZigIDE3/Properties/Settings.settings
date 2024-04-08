@@ -23,5 +23,8 @@
     <Setting Name="CurrentZigFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ReleaseType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ReleaseSmall</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

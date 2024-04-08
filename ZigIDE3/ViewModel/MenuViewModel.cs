@@ -19,10 +19,19 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
 
+        #region  ReleaseTypes
+        public ICommand MenuOptionDebugCommand { get; }
+        public ICommand MenuOptionReleaseFastCommand { get; }
+        public ICommand MenuOptionReleaseSmallCommand { get; }
+        public ICommand MenuOptionReleaseSafeCommand { get; }
+
+        #endregion
+
+
         #region Events
 
         public event EventHandler<MyEventArgs> ZigPathChanged;
-        public event EventHandler<MyEventArgs> ZigFileCompiled;
+        // public event EventHandler<MyEventArgs> ZigFileCompiled;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
         {
@@ -36,6 +45,31 @@ namespace ZigIDE3.ViewModel
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
             MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
+
+            MenuOptionDebugCommand = new RelayCommand(ExecuteDebugCommand);
+            MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
+            MenuOptionReleaseSmallCommand = new RelayCommand(ExecuteReleaseSmall);
+            MenuOptionReleaseSafeCommand = new RelayCommand(ExecuteReleaseSafe);
+        }
+
+        private void ExecuteReleaseSafe(object obj)
+        {
+            Settings.Default.ReleaseType = "ReleaseSafe";
+        }
+
+        private void ExecuteReleaseSmall(object obj)
+        {
+            Settings.Default.ReleaseType = "ReleaseSmall";
+        }
+
+        private void ExecuteReleaseFast(object obj)
+        {
+            Settings.Default.ReleaseType = "ReleaseFast";
+        }
+
+        private void ExecuteDebugCommand(object obj)
+        {
+            Settings.Default.ReleaseType = "Debug";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

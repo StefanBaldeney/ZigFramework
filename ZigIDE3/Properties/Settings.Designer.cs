@@ -106,5 +106,17 @@ namespace ZigIDE3.Properties {
                 this["CurrentZigFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ReleaseSmall")]
+        public string ReleaseType {
+            get {
+                return ((string)(this["ReleaseType"]));
+            }
+            set {
+                this["ReleaseType"] = value;
+            }
+        }
     }
 }

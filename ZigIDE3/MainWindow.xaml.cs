@@ -131,7 +131,7 @@ namespace ZigIDE3
 
             // _Compile(absolutePath);
 
-            OnPropertyChanged(nameof(ZigOutput));
+            // OnPropertyChanged(nameof(ZigOutput));
         }
 
         #region Properties
@@ -144,14 +144,11 @@ namespace ZigIDE3
         }
 
         private string content;
-        
-        [Obsolete()]
-        private string output;
 
         private MenuViewModel vmMenu;
         private StatusViewModel vmStatus;
 
-        public string ZigOutput => output;
+        // public string ZigOutput => output;
 
         public string SourceCode
         {
