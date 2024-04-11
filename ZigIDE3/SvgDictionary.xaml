@@ -1,9 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Canvas x:Key="SvgIconRun" Width="64" Height="64">
-        <!-- Hier fügen Sie das konvertierte XAML des SVG ein -->
+    <Style x:Key="DarkStyle" TargetType="Canvas">
+    </Style>
+
+    <SolidColorBrush x:Key="DarkStroke" Color="White"/>
+    <SolidColorBrush x:Key="DarkRunFill" Color="Green"/>
+
+    <Canvas 
+
+        x:Key="SvgRun"
+        Style="{StaticResource DarkStyle}"
+        Height="512" Width="384">
+        <Canvas.RenderTransform>
+            <ScaleTransform ScaleX="0.024" ScaleY="0.024"/>
+        </Canvas.RenderTransform>
+        <Path 
+            Stroke="{StaticResource DarkStroke}"
+            Fill="{StaticResource DarkRunFill}"
+            Data="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
     </Canvas>
+
 
 </ResourceDictionary>
     

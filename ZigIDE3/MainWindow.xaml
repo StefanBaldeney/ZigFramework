@@ -81,12 +81,18 @@
             </MenuItem>
         </Menu>
 
-        <ToolBar DockPanel.Dock="Top">
+        <ToolBar 
+            Height="28"
+            DockPanel.Dock="Top">
             <ToolBar.DataContext>
                 <local:MenuViewModel/>
             </ToolBar.DataContext>
             <Button Content="{Binding CompileText}"></Button>
-            <Button Content="{Binding RunText}"></Button>
+            <Button Width="12" Height="16">
+                <Button.Content>
+                    <ContentControl Content="{StaticResource SvgRun}"/>
+                </Button.Content>
+            </Button>
         </ToolBar>
 
         <StatusBar 
