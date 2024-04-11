@@ -153,7 +153,28 @@ namespace ZigIDE3.ViewModel
             var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
 
             string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+
+            if (ausgabe.Equals(string.Empty))
+            {
+                this.Status = "Erstellen erfolgreich";
+                //this.Output = "Erstellen erfolgreich";
+
+                this.ZigExeFilename = this.ZigFilename + ".exe";
+
+            }
+            
             Console.WriteLine(ausgabe);
+        }
+
+        public string Status
+        {
+            get => _status;
+            set
+            {
+                if (value == _status) return;
+                _status = value;
+                OnPropertyChanged(nameof(Status));
+            }
         }
 
         public async void Run()
@@ -161,10 +182,22 @@ namespace ZigIDE3.ViewModel
             var arguments = this.ZigExeFilename;
 
             string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+
+            this.Output = ausgabe;
+            
             Console.WriteLine(ausgabe);
         }
 
-        public string ZigExeFilename { get; set; }
+        public string ZigExeFilename
+        {
+            get => _zigExeFilename;
+            set
+            {
+                if (value == _zigExeFilename) return;
+                _zigExeFilename = value;
+                OnPropertyChanged(nameof(ZigExeFilename));
+            }
+        }
 
         public async Task<string> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
@@ -200,6 +233,8 @@ namespace ZigIDE3.ViewModel
         private string _zigFilename;
         private string _output;
         private string _errors;
+        private string _status;
+        private string _zigExeFilename;
         public IList<string> DateiListe => dateiListe;
 
         public string Output

@@ -5,12 +5,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using ZigIDE3.Interface;
 using ZigIDE3.Properties;
 using ZigIDE3.Tool;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ZigIDE3.ViewModel
 {
@@ -19,7 +21,9 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
+        public ICommand MenuVersionCommand { get; }
         public ICommand MenuRunCommand { get; }
+        public ICommand MenuEnvCommand { get; }
         public ICommand MenuZigDocumentationCommand { get; }
 
         #region  ReleaseTypes
@@ -56,16 +60,85 @@ namespace ZigIDE3.ViewModel
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
 
             MenuRunCommand = new RelayCommand(ExecuteRunCommand);
+            MenuVersionCommand = new RelayCommand(ExecuteVersionCommand);
 
             MenuOptionDebugCommand = new RelayCommand(ExecuteDebugCommand);
             MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
             MenuOptionReleaseSmallCommand = new RelayCommand(ExecuteReleaseSmall);
             MenuOptionReleaseSafeCommand = new RelayCommand(ExecuteReleaseSafe);
 
+            MenuEnvCommand = new RelayCommand(ExecuteEnvironment);
+
             MenuZigDocumentationCommand = new RelayCommand(ExecuteZigDocumentation);
 
 
             this.LocalizationChanged += MenuViewModel_LocalizationChanged;
+        }
+
+        private void ExecuteEnvironment(object obj)
+        {
+            var args = "env";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Properties.Settings.Default.ZigPath,
+                FileName = "zig",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Output: " + result);
+                    this.Output = result;
+                }
+
+            }
+        }
+
+        /// <summary>version von zig</summary>
+        /// <param name="obj"></param>
+        private void ExecuteVersionCommand(object obj)
+        {
+            var args = "version";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Properties.Settings.Default.ZigPath,
+                FileName = "zig",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = false
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Output: " + result);
+                    //this.Output = result;
+                    Settings.Default.ZigVersion = this.Output;
+                    MessageBox.Show(result, "zig version");
+                }
+
+                using (StreamReader reader = process.StandardError)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Error: " + result);
+                    this.Error = result;
+                }
+
+            }
+            
         }
 
         private void ExecuteZigDocumentation(object obj)

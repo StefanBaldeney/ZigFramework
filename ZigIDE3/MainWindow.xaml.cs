@@ -36,8 +36,6 @@ namespace ZigIDE3
         {
             var path= Properties.Settings.Default.ZigPath;
 
-            // LoadFilesFromDirectory(path);
-
             var top = Properties.Settings.Default.Top;
             var left = Properties.Settings.Default.Left;
 

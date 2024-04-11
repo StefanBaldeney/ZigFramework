@@ -78,7 +78,10 @@
 
                 </MenuItem>
                 <MenuItem Header="Version"
-                              Command="{Binding VersionCommand}">
+                              Command="{Binding MenuVersionCommand}">
+                </MenuItem>
+                <MenuItem Header="Environment"
+                          Command="{Binding MenuEnvCommand}">
                 </MenuItem>
             </MenuItem>
         </Menu>

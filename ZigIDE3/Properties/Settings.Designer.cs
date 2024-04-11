@@ -130,5 +130,17 @@ namespace ZigIDE3.Properties {
                 this["ZigExeFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.11.0")]
+        public string ZigVersion {
+            get {
+                return ((string)(this["ZigVersion"]));
+            }
+            set {
+                this["ZigVersion"] = value;
+            }
+        }
     }
 }
