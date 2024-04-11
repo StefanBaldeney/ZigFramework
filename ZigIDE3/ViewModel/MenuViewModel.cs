@@ -80,7 +80,6 @@ namespace ZigIDE3.ViewModel
 
         private void OnZigFileRun(object sender, MyEventArgs e)
         {
-            
         }
 
         private void ExecuteEnvironment(object obj)

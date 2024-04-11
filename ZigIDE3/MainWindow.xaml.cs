@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Xml;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ZigIDE3.ViewModel;
 
 namespace ZigIDE3
@@ -20,7 +24,14 @@ namespace ZigIDE3
             this.LocationChanged += Windows_LocationChanged;
             
             this.Loaded += Window_Loaded;
-            
+
+            // Avalon Syntaxhervorhebung
+            //var highlightingManager = HighlightingManager.Instance;
+            //using (var reader = new XmlTextReader("avalon/zig.xshd"))
+            //{
+            //    Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, highlightingManager);
+            //}
+
         }
         
         private void Windows_LocationChanged(object sender, EventArgs e)
@@ -49,6 +60,31 @@ namespace ZigIDE3
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
             vmMenu.ZigFileCompile += VmMenu_ZigCompile;
+
+            // Avalon
+            string resourceName = "ZigIDE3.avalon.Zig.xshd";
+
+            var assembly = Assembly.GetExecutingAssembly();
+
+            //foreach (var resName in assembly.GetManifestResourceNames())
+            //{
+            //    Debug.WriteLine(resName);
+            //}
+            
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (stream != null)
+                {
+                    using (XmlReader reader = new XmlTextReader(stream))
+                    {
+                        Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("Konnte die Syntaxhervorhebungs-Ressource nicht finden: " + resourceName);
+                }
+            }
         }
 
         private void VmMenu_ZigPathChanged(object sender, MyEventArgs e)

@@ -80,7 +80,9 @@
                 <MenuItem Header="Version"
                               Command="{Binding MenuVersionCommand}">
                 </MenuItem>
-                <MenuItem Header="Environment"
+                <MenuItem
+                          DataContext="{StaticResource AppMenuViewModel}"
+                          Header="Environment"
                           Command="{Binding MenuEnvCommand}">
                 </MenuItem>
             </MenuItem>
@@ -183,6 +185,7 @@
 
                         <!-- Editor -->
                         <avalonedit:TextEditor 
+                            x:Name ="Avalon"
                         ShowLineNumbers="True"
                         Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <b:Interaction.Behaviors>

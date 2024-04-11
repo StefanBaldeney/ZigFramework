@@ -168,6 +168,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="avalon\Zig.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="MyDataSet.xsc">
       <DependentUpon>MyDataSet.xsd</DependentUpon>
     </None>
