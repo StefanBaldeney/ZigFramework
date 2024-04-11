@@ -18,6 +18,7 @@ namespace ZigIDE3.ViewModel
 {
     public class MenuViewModel : INotifyPropertyChanged, ILocalizationChanged
     {
+        private string _output = ".";
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
@@ -284,7 +285,17 @@ namespace ZigIDE3.ViewModel
             }
         }
 
-        public string Output { get; set; }
+        public string Output
+        {
+            get => _output;
+            set
+            {
+                if (value == _output) return;
+                _output = value;
+                OnPropertyChanged(nameof(Output));
+            }
+        }
+
         public string Error { get; set; }
         
         public event EventHandler LocalizationChanged;

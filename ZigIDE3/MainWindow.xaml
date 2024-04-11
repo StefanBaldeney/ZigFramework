@@ -92,12 +92,12 @@
             <ToolBar.DataContext>
                 <local:MenuViewModel/>
             </ToolBar.DataContext>
-            <Button Width="16" Height="16">
+            <Button Width="16" Height="16" Command="{Binding MenuCompileCommand}">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgCompile}"/>
                 </Button.Content>
             </Button>
-            <Button Width="12" Height="16">
+            <Button Width="12" Height="16" Command="{Binding MenuRunCommand}">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgRun}"/>
                 </Button.Content>

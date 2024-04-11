@@ -3,11 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ZigIDE3.Control"
+             xmlns:viewModel="clr-namespace:ZigIDE3.ViewModel"
              mc:Ignorable="d" 
              Background="LightGray"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-          <TextBlock Text="{Binding Output}"></TextBlock>  
+
+        <Label
+            Content="{Binding Output}">
+            <Label.DataContext>
+                <viewModel:CodeViewModel/>
+            </Label.DataContext>
+        </Label>
+
+        <!--<TextBlock 
+              
+              Text="{Binding Output}">
+              <TextBlock.DataContext>
+                <viewModel:CodeViewModel/>
+            </TextBlock.DataContext>
+          </TextBlock>-->  
     </Grid>
 </UserControl>
