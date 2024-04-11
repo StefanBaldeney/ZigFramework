@@ -74,7 +74,9 @@
             <MenuItem Header="Git" IsEnabled="False"></MenuItem>
             <MenuItem Header="Hilfe">
 
-                <MenuItem Header="Zig Dokumentation" Command="{Binding ZigDokumentation}"></MenuItem>
+                <MenuItem Header="Zig Dokumentation" Command="{Binding MenuZigDocumentationCommand}">
+
+                </MenuItem>
                 <MenuItem Header="Version"
                               Command="{Binding VersionCommand}">
                 </MenuItem>
@@ -87,7 +89,11 @@
             <ToolBar.DataContext>
                 <local:MenuViewModel/>
             </ToolBar.DataContext>
-            <Button Content="{Binding CompileText}"></Button>
+            <Button Width="16" Height="16">
+                <Button.Content>
+                    <ContentControl Content="{StaticResource SvgCompile}"/>
+                </Button.Content>
+            </Button>
             <Button Width="12" Height="16">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgRun}"/>

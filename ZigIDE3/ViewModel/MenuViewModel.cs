@@ -20,6 +20,7 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
         public ICommand MenuRunCommand { get; }
+        public ICommand MenuZigDocumentationCommand { get; }
 
         #region  ReleaseTypes
         public ICommand MenuOptionDebugCommand { get; }
@@ -61,7 +62,22 @@ namespace ZigIDE3.ViewModel
             MenuOptionReleaseSmallCommand = new RelayCommand(ExecuteReleaseSmall);
             MenuOptionReleaseSafeCommand = new RelayCommand(ExecuteReleaseSafe);
 
+            MenuZigDocumentationCommand = new RelayCommand(ExecuteZigDocumentation);
+
+
             this.LocalizationChanged += MenuViewModel_LocalizationChanged;
+        }
+
+        private void ExecuteZigDocumentation(object obj)
+        {
+            try
+            {
+                Process.Start("https://ziglang.org/documentation/0.11.0");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("E189:" + ex.Message);
+            }
         }
 
         private void MenuViewModel_LocalizationChanged(object sender, EventArgs e)
