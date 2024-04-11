@@ -18,6 +18,7 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
+        public ICommand MenuRunCommand { get; }
 
         #region  ReleaseTypes
         public ICommand MenuOptionDebugCommand { get; }
@@ -31,7 +32,7 @@ namespace ZigIDE3.ViewModel
         #region Events
 
         public event EventHandler<MyEventArgs> ZigPathChanged;
-        // public event EventHandler<MyEventArgs> ZigFileCompiled;
+        public event EventHandler<MyEventArgs> ZigFileCompile;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
         {
@@ -45,6 +46,8 @@ namespace ZigIDE3.ViewModel
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
             MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
+
+            MenuRunCommand = new RelayCommand(ExecuteRunCommand);
 
             MenuOptionDebugCommand = new RelayCommand(ExecuteDebugCommand);
             MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
@@ -106,9 +109,46 @@ namespace ZigIDE3.ViewModel
 
         }
 
+        private void ExecuteRunCommand(object parameter)
+        {
+            var args = string.Empty;
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WorkingDirectory = Properties.Settings.Default.ZigPath,
+                FileName = "hello_world.exe",
+                Arguments = args,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Output: " + result);
+                    this.Output = result;
+                }
+
+                using (StreamReader reader = process.StandardError)
+                {
+                    string result = reader.ReadToEnd();
+                    Console.WriteLine("Error: " + result);
+                    this.Error = result;
+                }
+
+            }
+        }
+
         private void ExecuteCompileCommand(object parameter)
         {
-            var args = "build-exe " + Settings.Default.CurrentZigFilename;
+            ZigFileCompile?.Invoke(this, new MyEventArgs());
+            return;
+
+            var args = string.Empty;
 
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
@@ -126,8 +166,7 @@ namespace ZigIDE3.ViewModel
                 using (StreamReader reader = process.StandardOutput)
                 {
                     string result = reader.ReadToEnd();
-                    Console.WriteLine(result);
-
+                    Console.WriteLine("Output: " + result);
                     this.Output = result;
                 }
 
@@ -137,6 +176,7 @@ namespace ZigIDE3.ViewModel
                     Console.WriteLine("Error: " + result);
                     this.Error = result;
                 }
+                
             }
         }
 

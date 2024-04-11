@@ -18,9 +18,7 @@ namespace ZigIDE3
             this.Title = "ZigIDE3 by Stefan Brandt";
 
             this.LocationChanged += Windows_LocationChanged;
-
-            // return;
-
+            
             this.Loaded += Window_Loaded;
             
         }
@@ -49,13 +47,19 @@ namespace ZigIDE3
             // registriere event ZigPathChanged
             vmMenu = MyMenu.DataContext as MenuViewModel;
             vmStatus = MyStatus.DataContext as StatusViewModel;
+            vmCode = MyCode.DataContext as CodeViewModel;
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
+            vmMenu.ZigFileCompile += VmMenu_ZigCompile;
         }
 
         private void VmMenu_ZigPathChanged(object sender, MyEventArgs e)
         {
             vmStatus.ChangeZigPath(e.Nachricht);
+        }
+        private void VmMenu_ZigCompile(object sender, MyEventArgs e)
+        {
+            vmCode.Compile();
         }
 
         private void FilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -152,6 +156,7 @@ namespace ZigIDE3
 
         private MenuViewModel vmMenu;
         private StatusViewModel vmStatus;
+        private CodeViewModel vmCode;
 
         // public string ZigOutput => output;
 

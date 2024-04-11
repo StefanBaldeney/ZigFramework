@@ -1,4 +1,4 @@
-﻿<Window x:Class="ZigIDE3.MainWindow"
+﻿<Window xmlns:Control="clr-namespace:ZigIDE3.Control"  x:Class="ZigIDE3.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -135,6 +135,7 @@
                 <!-- Inhalt der linken Spalte -->
                 
                 <ListBox 
+                    x:Name = "MyCode"
                     ItemsSource ="{Binding DateiListe}"
                     DataContext="{StaticResource CodeViewModel}">
                     <b:Interaction.Triggers>
@@ -168,15 +169,34 @@
                     </avalonedit:TextEditor>
                     
                     <GridSplitter Grid.Row="1" 
-                                  Height="5" 
                                   HorizontalAlignment="Stretch" 
-                                  ResizeDirection="Rows"/>
+                                  ResizeBehavior="PreviousAndNext"
+                                  ResizeDirection="Columns"/>
 
-                    <TextBox    Grid.Row="2" 
-                        Text="Output" 
-                        HorizontalAlignment="Stretch" 
-                        VerticalAlignment="Stretch" />
+                    <!-- Grid Output / Errors -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
+                        <!--<TextBox    Grid.Column="0" 
+                                    Text="{Binding Output}" 
+                                     />-->
+
+                        <Control:Output Grid.Column="0" />
+
+                        <GridSplitter Grid.Column="1" 
+                                      Width="5"
+                                      HorizontalAlignment="Stretch" 
+                                      ResizeDirection="Columns"/>
+                        
+                        <Control:Fehlerliste Grid.Column="2" />
+
+
+                    </Grid>
+                    
                 </Grid>
             </Grid>
         </Grid>

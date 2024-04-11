@@ -26,5 +26,8 @@
     <Setting Name="ReleaseType" Type="System.String" Scope="User">
       <Value Profile="(Default)">ReleaseSmall</Value>
     </Setting>
+    <Setting Name="ZigExeFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">hello_world.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,7 +51,19 @@ namespace ZigIDE3.ViewModel
             }
         }
 
-        public string ZigFilename { get; set; }
+        public string ZigFilename
+        {
+            get => _zigFilename;
+            set
+            {
+                if (value == _zigFilename) return;
+                _zigFilename = value;
+                OnPropertyChanged(nameof(ZigFilename));
+                OnPropertyChanged(nameof(ZigFilePath));
+                OnPropertyChanged(nameof(ZigFilename));
+                OnPropertyChanged(nameof(ZigFilePath));
+            }
+        }
 
         public string ZigFilePath => Path.Combine(Settings.Default.ZigPath, ZigFilename);
 
@@ -61,7 +74,18 @@ namespace ZigIDE3.ViewModel
         public ICommand Save { get; }
 
         private string _sourceCode;
-        
+
+        public string Errors
+        {
+            get => _errors;
+            set
+            {
+                if (value == _errors) return;
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
         public string SourceCode
         {
             get { return _sourceCode; }
@@ -70,6 +94,8 @@ namespace ZigIDE3.ViewModel
                 if (_sourceCode != value)
                 {
                     _sourceCode = value;
+                    OnPropertyChanged(nameof(SourceCode));
+                    OnPropertyChanged(nameof(SourceCode));
                     OnPropertyChanged(nameof(SourceCode));
                 }
             }
@@ -124,17 +150,28 @@ namespace ZigIDE3.ViewModel
         public async void Compile()
         {
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
-            var arguments = " build-exe " + releaseArgument;
+            var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
 
             string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
             Console.WriteLine(ausgabe);
         }
+
+        public async void Run()
+        {
+            var arguments = this.ZigExeFilename;
+
+            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+            Console.WriteLine(ausgabe);
+        }
+
+        public string ZigExeFilename { get; set; }
 
         public async Task<string> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
             // Konfiguriere die Startinformationen des Prozesses
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {
+                WorkingDirectory = Settings.Default.ZigPath,
                 FileName = pfadZumProgramm,
                 Arguments = argumente,
                 UseShellExecute = false, // Ermöglicht die Umleitung der Standardausgabe
@@ -160,6 +197,61 @@ namespace ZigIDE3.ViewModel
         }
 
         private IList<string> dateiListe= new List<string>();
+        private string _zigFilename;
+        private string _output;
+        private string _errors;
         public IList<string> DateiListe => dateiListe;
+
+        public string Output
+        {
+            get => _output;
+            set
+            {
+                if (value == _output) return;
+                _output = value;
+                OnPropertyChanged(nameof(Output));
+                OnPropertyChanged(nameof(Output));
+            }
+        }
+    }
+
+    /// <summary></summary>
+    [Obsolete()]
+    public class ProcessRunner
+    {
+        public static string RunDOSProgram(string programPath, string arguments = "")
+        {
+            // Initialisieren eines neuen ProzessStartInfo-Objektes
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = programPath, // Der Pfad zum DOS-Programm
+                Arguments = arguments, // Zusätzliche Argumente, falls erforderlich
+                UseShellExecute = false, // Nicht die Shell verwenden, um den Prozess zu starten
+                RedirectStandardOutput = true, // Umleitung der Standardausgabe aktivieren
+                RedirectStandardError = true, // Umleitung der Standardfehlerausgabe aktivieren
+                CreateNoWindow = true, // Verhindert die Erstellung eines Fensters
+                StandardOutputEncoding = Encoding.UTF8, // Kodierung der Standardausgabe
+                StandardErrorEncoding = Encoding.UTF8 // Kodierung der Standardfehlerausgabe
+            };
+
+            // Starten des Prozesses mit den zuvor definierten Startinformationen
+            using (Process process = Process.Start(startInfo))
+            {
+                // Lesen der Standardausgabe
+                string output = process.StandardOutput.ReadToEnd();
+                // Warten, bis der Prozess beendet ist
+                process.WaitForExit();
+
+                // Optional: Lesen der Fehlerausgabe
+                string error = process.StandardError.ReadToEnd();
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    throw new Exception($"Error during process execution: {error}");
+                }
+
+                return output;
+            }
+        }
     }
 }

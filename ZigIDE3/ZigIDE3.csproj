@@ -88,12 +88,27 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BindableTextEditorBehavior.cs" />
+    <Compile Include="Control\Fehlerliste.xaml.cs">
+      <DependentUpon>Fehlerliste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Output.xaml.cs">
+      <DependentUpon>Output.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CodeViewModel.cs" />
     <Compile Include="ViewModel\CommandViewModel.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="Tool\RelayCommand.cs" />
     <Compile Include="ViewModel\MyEventArgs.cs" />
+    <Compile Include="ViewModel\OutputViewModel.cs" />
     <Compile Include="ViewModel\StatusViewModel.cs" />
+    <Page Include="Control\Fehlerliste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\Output.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

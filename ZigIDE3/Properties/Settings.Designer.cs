@@ -118,5 +118,17 @@ namespace ZigIDE3.Properties {
                 this["ReleaseType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hello_world.exe")]
+        public string ZigExeFilename {
+            get {
+                return ((string)(this["ZigExeFilename"]));
+            }
+            set {
+                this["ZigExeFilename"] = value;
+            }
+        }
     }
 }
