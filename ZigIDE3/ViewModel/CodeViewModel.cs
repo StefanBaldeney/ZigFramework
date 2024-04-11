@@ -231,7 +231,7 @@ namespace ZigIDE3.ViewModel
 
         private IList<string> dateiListe= new List<string>();
         private string _zigFilename;
-        private string _output;
+        private string _output="c";
         private string _errors;
         private string _status;
         private string _zigExeFilename;
@@ -244,7 +244,6 @@ namespace ZigIDE3.ViewModel
             {
                 if (value == _output) return;
                 _output = value;
-                OnPropertyChanged(nameof(Output));
                 OnPropertyChanged(nameof(Output));
             }
         }

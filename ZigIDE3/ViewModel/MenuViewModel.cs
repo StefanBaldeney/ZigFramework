@@ -18,7 +18,7 @@ namespace ZigIDE3.ViewModel
 {
     public class MenuViewModel : INotifyPropertyChanged, ILocalizationChanged
     {
-        private string _output = ".";
+        private string _output = "m";
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
@@ -46,6 +46,7 @@ namespace ZigIDE3.ViewModel
 
         public event EventHandler<MyEventArgs> ZigPathChanged;
         public event EventHandler<MyEventArgs> ZigFileCompile;
+        public event EventHandler<MyEventArgs> ZigFileRun;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
         {
@@ -74,6 +75,12 @@ namespace ZigIDE3.ViewModel
 
 
             this.LocalizationChanged += MenuViewModel_LocalizationChanged;
+            this.ZigFileRun += OnZigFileRun;
+        }
+
+        private void OnZigFileRun(object sender, MyEventArgs e)
+        {
+            
         }
 
         private void ExecuteEnvironment(object obj)

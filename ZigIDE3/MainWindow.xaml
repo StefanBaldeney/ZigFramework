@@ -88,10 +88,9 @@
 
         <ToolBar 
             Height="28"
-            DockPanel.Dock="Top">
-            <ToolBar.DataContext>
-                <local:MenuViewModel/>
-            </ToolBar.DataContext>
+            DockPanel.Dock="Top"
+            DataContext="{StaticResource AppMenuViewModel}"
+            >
             <Button Width="16" Height="16" Command="{Binding MenuCompileCommand}">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgCompile}"/>
@@ -160,7 +159,7 @@
                     <ListBox 
                     x:Name = "MyCode"
                     ItemsSource ="{Binding DateiListe}"
-                    DataContext="{StaticResource CodeViewModel}">
+                    DataContext="{StaticResource AppCodeViewModel}">
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="SelectionChanged">
                                 <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
@@ -174,7 +173,7 @@
 
                     <!-- Inhalt der rechten Spalte -->
                     <Grid 
-                    DataContext="{StaticResource CodeViewModel}"
+                    DataContext="{StaticResource AppCodeViewModel}"
                     Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" MinHeight="24"></RowDefinition>
