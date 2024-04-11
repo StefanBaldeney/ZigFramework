@@ -17,189 +17,199 @@
         <local:StatusViewModel x:Key="StatusViewModel"/>
     </Window.Resources>
 
-    <Grid>
+    <DockPanel>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition MinHeight="28" Height="28"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition MinHeight="32" Height="32"></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Menu
+        <Menu   DockPanel.Dock="Top"
                 x:Name="MyMenu"
                 Grid.Row="0">
-                <Menu.DataContext>
-                    <local:MenuViewModel/>
-                </Menu.DataContext>
+            <Menu.DataContext>
+                <local:MenuViewModel/>
+            </Menu.DataContext>
 
-                <MenuItem Header="Datei">
-                    <MenuItem Header="Zig-Datei speichern" Command="{Binding MenuSaveZigFileCommand}"></MenuItem>
-                    <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="Bearbeiten"></MenuItem>
-                <MenuItem Header="Erstellen">
-                    <MenuItem 
+            <MenuItem Header="Datei">
+                <MenuItem Header="Zig-Datei speichern" Command="{Binding MenuSaveZigFileCommand}"></MenuItem>
+                <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Bearbeiten"></MenuItem>
+            <MenuItem Header="Erstellen">
+                <MenuItem 
                               Header="Compile" 
                               Command="{Binding MenuCompileCommand}"
                               CommandParameter="{Binding ZigFilename}"
                               >
-                    </MenuItem>
-                    <MenuItem 
+                </MenuItem>
+                <MenuItem 
                         Header="Starten" 
                         Command="{Binding MenuRunCommand}"
                         CommandParameter="{Binding ZigExeFilename}"
                     >
+                </MenuItem>
+                <MenuItem Header="Option">
+                    <MenuItem Header="Debug">
+                        <MenuItem.Icon>
+                            <RadioButton Content="egal" IsChecked="True" GroupName="Release"></RadioButton>
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Option">
-                        <MenuItem Header="Debug">
-                            <MenuItem.Icon>
-                                <RadioButton Content="egal" IsChecked="True" GroupName="Release"></RadioButton>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="ReleaseFast">
-                            <MenuItem.Icon>
-                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="ReleaseSafe">
-                            <MenuItem.Icon>
-                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="ReleaseSmall">
-                            <MenuItem.Icon>
-                                <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
-                            </MenuItem.Icon>
-                        </MenuItem>
+                    <MenuItem Header="ReleaseFast">
+                        <MenuItem.Icon>
+                            <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="ReleaseSafe">
+                        <MenuItem.Icon>
+                            <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="ReleaseSmall">
+                        <MenuItem.Icon>
+                            <RadioButton Content="egal" IsEnabled="False" GroupName="Release"></RadioButton>
+                        </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Test"></MenuItem>
-                <MenuItem Header="Extras">
-                    <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
-                </MenuItem>
-                <MenuItem Header="Git" IsEnabled="False"></MenuItem>
-                <MenuItem Header="Hilfe">
+            </MenuItem>
+            <MenuItem Header="Test"></MenuItem>
+            <MenuItem Header="Extras">
+                <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Git" IsEnabled="False"></MenuItem>
+            <MenuItem Header="Hilfe">
 
-                    <MenuItem Header="Zig Dokumentation" Command="{Binding ZigDokumentation}"></MenuItem>
-                    <MenuItem Header="Version"
+                <MenuItem Header="Zig Dokumentation" Command="{Binding ZigDokumentation}"></MenuItem>
+                <MenuItem Header="Version"
                               Command="{Binding VersionCommand}">
-                    </MenuItem>
                 </MenuItem>
-            </Menu>
+            </MenuItem>
+        </Menu>
 
-            <StatusBar 
-                x:Name="MyStatus"
-                Grid.Row="2"
-                DataContext="{StaticResource StatusViewModel}"
-                >
+        <ToolBar DockPanel.Dock="Top">
+            <ToolBar.DataContext>
+                <local:MenuViewModel/>
+            </ToolBar.DataContext>
+            <Button Content="{Binding CompileText}"></Button>
+            <Button Content="{Binding RunText}"></Button>
+        </ToolBar>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-                
-                <Label Grid.Column="0"
-                       MinWidth="40"
-                       Width="60"
-                       Content="{Binding Status}"
-                       ></Label>
+        <StatusBar 
+            x:Name="MyStatus"
+            DockPanel.Dock="Bottom"
+            DataContext="{StaticResource StatusViewModel}"
+        >
 
-                <Label Grid.Column="1"
-                       MinWidth="40"
-                       Width="Auto"
-                       Content="{Binding ZigPath}">
-                </Label>
-
-                <ComboBox 
-                    Grid.Column="1"
-                  DataContext="{StaticResource CommandViewModel}"
-                  ItemsSource="{Binding Befehle}"
-                  MinWidth="120">
-                </ComboBox>
-
-            </StatusBar>
-
-            <Grid Grid.Row="1">
-
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="60" MaxWidth="240"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+            </Grid>
 
-                <!-- Inhalt der linken Spalte -->
+            <Label Grid.Column="0"
+                   MinWidth="40"
+                   Width="60"
+                   Content="{Binding Status}"
+            ></Label>
+
+            <Label Grid.Column="1"
+                   MinWidth="40"
+                   Width="Auto"
+                   Content="{Binding ZigPath}">
+            </Label>
+
+            <ComboBox 
+                Grid.Column="1"
+                DataContext="{StaticResource CommandViewModel}"
+                ItemsSource="{Binding Befehle}"
+                MinWidth="120">
+            </ComboBox>
+
+        </StatusBar>
+
+        <Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
                 
-                <ListBox 
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="60" MaxWidth="240"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Inhalt der linken Spalte -->
+
+                    <ListBox 
                     x:Name = "MyCode"
                     ItemsSource ="{Binding DateiListe}"
                     DataContext="{StaticResource CodeViewModel}">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="SelectionChanged">
-                            <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="SelectionChanged">
+                                <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
                                                    CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                                    />
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </ListBox>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </ListBox>
 
-                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
+                    <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
 
-                <!-- Inhalt der rechten Spalte -->
-                <Grid 
+                    <!-- Inhalt der rechten Spalte -->
+                    <Grid 
                     DataContext="{StaticResource CodeViewModel}"
                     Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MinHeight="24"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*" MinHeight="24"></RowDefinition>
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" MinHeight="24"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*" MinHeight="24"></RowDefinition>
+                        </Grid.RowDefinitions>
 
-                    <!-- Editor -->
-                    <avalonedit:TextEditor 
+                        <!-- Editor -->
+                        <avalonedit:TextEditor 
                         ShowLineNumbers="True"
                         Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <b:Interaction.Behaviors>
                                 <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
                             </b:Interaction.Behaviors>
-                    </avalonedit:TextEditor>
-                    
-                    <GridSplitter Grid.Row="1" 
+                        </avalonedit:TextEditor>
+
+                        <GridSplitter Grid.Row="1" 
                                   HorizontalAlignment="Stretch" 
                                   ResizeBehavior="PreviousAndNext"
                                   ResizeDirection="Columns"/>
 
-                    <!-- Grid Output / Errors -->
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <!-- Grid Output / Errors -->
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                        <!--<TextBox    Grid.Column="0" 
+                            <!--<TextBox    Grid.Column="0" 
                                     Text="{Binding Output}" 
                                      />-->
 
-                        <Control:Output Grid.Column="0" />
+                            <Control:Output Grid.Column="0" />
 
-                        <GridSplitter Grid.Column="1" 
+                            <GridSplitter Grid.Column="1" 
                                       Width="5"
                                       HorizontalAlignment="Stretch" 
                                       ResizeDirection="Columns"/>
-                        
-                        <Control:Fehlerliste Grid.Column="2" />
 
+                            <Control:Fehlerliste Grid.Column="2" />
+
+
+                        </Grid>
 
                     </Grid>
-                    
                 </Grid>
             </Grid>
         </Grid>
-    </Grid>
+
+    </DockPanel>
 
 </Window>

@@ -96,6 +96,7 @@
     </Compile>
     <Compile Include="ViewModel\CodeViewModel.cs" />
     <Compile Include="ViewModel\CommandViewModel.cs" />
+    <Compile Include="Interface\ILocalizationChanged.cs" />
     <Compile Include="ViewModel\MenuViewModel.cs" />
     <Compile Include="Tool\RelayCommand.cs" />
     <Compile Include="ViewModel\MyEventArgs.cs" />
@@ -180,6 +181,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Ressource\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

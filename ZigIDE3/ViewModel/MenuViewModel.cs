@@ -8,12 +8,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using ZigIDE3.Interface;
 using ZigIDE3.Properties;
 using ZigIDE3.Tool;
 
 namespace ZigIDE3.ViewModel
 {
-    public class MenuViewModel : INotifyPropertyChanged
+    public class MenuViewModel : INotifyPropertyChanged, ILocalizationChanged
     {
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
@@ -28,6 +29,12 @@ namespace ZigIDE3.ViewModel
 
         #endregion
 
+        #region Lokalisierung
+
+        public string CompileText => "Erstellen";
+        public string RunText => "Starten";
+
+        #endregion
 
         #region Events
 
@@ -53,6 +60,14 @@ namespace ZigIDE3.ViewModel
             MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
             MenuOptionReleaseSmallCommand = new RelayCommand(ExecuteReleaseSmall);
             MenuOptionReleaseSafeCommand = new RelayCommand(ExecuteReleaseSafe);
+
+            this.LocalizationChanged += MenuViewModel_LocalizationChanged;
+        }
+
+        private void MenuViewModel_LocalizationChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged("RunText");
+            OnPropertyChanged("CompileText");
         }
 
         private void ExecuteReleaseSafe(object obj)
@@ -182,5 +197,7 @@ namespace ZigIDE3.ViewModel
 
         public string Output { get; set; }
         public string Error { get; set; }
+        
+        public event EventHandler LocalizationChanged;
     }
 }
