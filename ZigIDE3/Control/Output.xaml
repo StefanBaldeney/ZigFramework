@@ -7,13 +7,14 @@
              mc:Ignorable="d" 
              Background="LightGray"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+<UserControl.Resources>
+    <viewModel:CodeViewModel x:Key="vm"/>
+</UserControl.Resources>
+
+    <Grid DataContext="{StaticResource vm}">
 
         <Label
             Content="{Binding Output}">
-            <Label.DataContext>
-                <viewModel:CodeViewModel/>
-            </Label.DataContext>
         </Label>
 
         <!--<TextBlock 
