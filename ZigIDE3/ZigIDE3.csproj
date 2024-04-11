@@ -94,6 +94,16 @@
     <Compile Include="Control\Output.xaml.cs">
       <DependentUpon>Output.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ressource\resource.de-DE.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resource.de-DE.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Ressource\resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\CodeViewModel.cs" />
     <Compile Include="ViewModel\CommandViewModel.cs" />
     <Compile Include="Interface\ILocalizationChanged.cs" />
@@ -146,6 +156,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Ressource\resource.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>resource.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ressource\resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="MyDataSet.xsc">
       <DependentUpon>MyDataSet.xsd</DependentUpon>
     </None>
@@ -181,8 +199,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Ressource\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
