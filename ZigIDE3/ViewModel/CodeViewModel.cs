@@ -70,9 +70,7 @@ namespace ZigIDE3.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand SelectionChangedCommand { get; }
-
-        public ICommand Save { get; }
-
+        
         private string _sourceCode;
 
         public string Errors
@@ -145,6 +143,11 @@ namespace ZigIDE3.ViewModel
             }
 
             return null;
+        }
+
+        public async void Save()
+        {
+            saveSourceCode();
         }
 
         public async void Compile()
@@ -247,6 +250,28 @@ namespace ZigIDE3.ViewModel
                 OnPropertyChanged(nameof(Output));
             }
         }
+
+        private void saveSourceCode()
+        {
+            var currentFile = Settings.Default.CurrentZigFilename;
+            if (string.IsNullOrEmpty(currentFile)) return;
+            
+            try
+            {
+                var path = Path.Combine(Settings.Default.ZigPath, currentFile);
+
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    var buffer = this.SourceCode.ToCharArray();
+                    sw.WriteAsync(buffer);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ein Fehler ist aufgetreten: {ex.Message}");
+            }
+        }
+
     }
 
     /// <summary></summary>

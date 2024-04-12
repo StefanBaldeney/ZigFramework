@@ -24,14 +24,7 @@ namespace ZigIDE3
             this.LocationChanged += Windows_LocationChanged;
             
             this.Loaded += Window_Loaded;
-
-            // Avalon Syntaxhervorhebung
-            //var highlightingManager = HighlightingManager.Instance;
-            //using (var reader = new XmlTextReader("avalon/zig.xshd"))
-            //{
-            //    Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, highlightingManager);
-            //}
-
+            
         }
         
         private void Windows_LocationChanged(object sender, EventArgs e)
@@ -60,16 +53,12 @@ namespace ZigIDE3
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
             vmMenu.ZigFileCompile += VmMenu_ZigCompile;
+            vmMenu.ZigFileSave += VmMenuOnZigFileSave;
 
             // Avalon
             string resourceName = "ZigIDE3.avalon.Zig.xshd";
 
             var assembly = Assembly.GetExecutingAssembly();
-
-            //foreach (var resName in assembly.GetManifestResourceNames())
-            //{
-            //    Debug.WriteLine(resName);
-            //}
             
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -85,6 +74,11 @@ namespace ZigIDE3
                     throw new InvalidOperationException("Konnte die Syntaxhervorhebungs-Ressource nicht finden: " + resourceName);
                 }
             }
+        }
+
+        private void VmMenuOnZigFileSave(object sender, MyEventArgs e)
+        {
+            vmCode.Save();
         }
 
         private void VmMenu_ZigPathChanged(object sender, MyEventArgs e)

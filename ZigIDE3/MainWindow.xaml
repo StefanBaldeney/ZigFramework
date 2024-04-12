@@ -27,7 +27,7 @@
             </Menu.DataContext>
 
             <MenuItem Header="Datei">
-                <MenuItem Header="Zig-Datei speichern" Command="{Binding MenuSaveZigFileCommand}"></MenuItem>
+                <MenuItem Header="Zig-Datei speichern" Command="{Binding MenuZigSaveCommand}"></MenuItem>
                 <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Bearbeiten"></MenuItem>
@@ -93,14 +93,25 @@
             DockPanel.Dock="Top"
             DataContext="{StaticResource AppMenuViewModel}"
             >
-            <Button Width="16" Height="16" Command="{Binding MenuCompileCommand}">
+            <Button 
+                Margin="2"
+                Width="20" Height="20" Command="{Binding MenuCompileCommand}">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgCompile}"/>
                 </Button.Content>
             </Button>
-            <Button Width="12" Height="16" Command="{Binding MenuRunCommand}">
+            <Button 
+                Margin="2"
+                Width="20" Height="20" Command="{Binding MenuRunCommand}">
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgRun}"/>
+                </Button.Content>
+            </Button>
+            <Button 
+                Margin="2"
+                Width="20" Height="20" Command="{Binding MenuZigSaveCommand}">
+                <Button.Content>
+                    <ContentControl Content="{StaticResource SvgSave}"/>
                 </Button.Content>
             </Button>
         </ToolBar>

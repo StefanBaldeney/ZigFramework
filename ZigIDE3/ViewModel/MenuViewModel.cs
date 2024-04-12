@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
@@ -27,6 +28,8 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuEnvCommand { get; }
         public ICommand MenuZigDocumentationCommand { get; }
 
+        public ICommand MenuZigSaveCommand { get; }
+
         #region  ReleaseTypes
         public ICommand MenuOptionDebugCommand { get; }
         public ICommand MenuOptionReleaseFastCommand { get; }
@@ -46,6 +49,7 @@ namespace ZigIDE3.ViewModel
 
         public event EventHandler<MyEventArgs> ZigPathChanged;
         public event EventHandler<MyEventArgs> ZigFileCompile;
+        public event EventHandler<MyEventArgs> ZigFileSave;
         public event EventHandler<MyEventArgs> ZigFileRun;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
@@ -64,6 +68,8 @@ namespace ZigIDE3.ViewModel
             MenuRunCommand = new RelayCommand(ExecuteRunCommand);
             MenuVersionCommand = new RelayCommand(ExecuteVersionCommand);
 
+            MenuZigSaveCommand = new RelayCommand(ExecuteZigSaveCommand);
+
             MenuOptionDebugCommand = new RelayCommand(ExecuteDebugCommand);
             MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
             MenuOptionReleaseSmallCommand = new RelayCommand(ExecuteReleaseSmall);
@@ -76,6 +82,17 @@ namespace ZigIDE3.ViewModel
 
             this.LocalizationChanged += MenuViewModel_LocalizationChanged;
             this.ZigFileRun += OnZigFileRun;
+            this.ZigFileSave += OnZigFileSave;
+        }
+        
+        private void ExecuteZigSaveCommand(object obj)
+        {
+            this.saveSourceCode();
+        }
+
+        private void OnZigFileSave(object sender, MyEventArgs e)
+        {
+            
         }
 
         private void OnZigFileRun(object sender, MyEventArgs e)
@@ -257,38 +274,6 @@ namespace ZigIDE3.ViewModel
         private void ExecuteCompileCommand(object parameter)
         {
             ZigFileCompile?.Invoke(this, new MyEventArgs());
-            return;
-
-            var args = string.Empty;
-
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = Properties.Settings.Default.ZigPath,
-                FileName = "zig",
-                Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
-
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine("Output: " + result);
-                    this.Output = result;
-                }
-
-                using (StreamReader reader = process.StandardError)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine("Error: " + result);
-                    this.Error = result;
-                }
-                
-            }
         }
 
         public string Output
@@ -300,6 +285,11 @@ namespace ZigIDE3.ViewModel
                 _output = value;
                 OnPropertyChanged(nameof(Output));
             }
+        }
+
+        private void saveSourceCode()
+        {
+            ZigFileSave?.Invoke(this, new MyEventArgs());
         }
 
         public string Error { get; set; }
