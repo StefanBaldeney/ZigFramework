@@ -46,13 +46,13 @@ namespace ZigIDE3
             this.Top = Math.Max(0,top);
             this.Left = Math.Max(0, left); 
 
-            // registriere event ZigPathChanged
             vmMenu = MyMenu.DataContext as MenuViewModel;
             vmStatus = MyStatus.DataContext as StatusViewModel;
             vmCode = MyCode.DataContext as CodeViewModel;
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
             vmMenu.ZigFileCompile += VmMenu_ZigCompile;
+            
             vmMenu.ZigFileSave += VmMenuOnZigFileSave;
 
             // Avalon

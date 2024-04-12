@@ -19,7 +19,7 @@ namespace ZigIDE3.ViewModel
 {
     public class MenuViewModel : INotifyPropertyChanged, ILocalizationChanged
     {
-        private string _output = "m";
+        private string _output = "output";
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
         public ICommand MenuCompileCommand { get; }
@@ -82,7 +82,8 @@ namespace ZigIDE3.ViewModel
 
             this.LocalizationChanged += MenuViewModel_LocalizationChanged;
             this.ZigFileRun += OnZigFileRun;
-            this.ZigFileSave += OnZigFileSave;
+            
+            //this.ZigFileSave += OnZigFileSave;
         }
         
         private void ExecuteZigSaveCommand(object obj)
@@ -90,9 +91,8 @@ namespace ZigIDE3.ViewModel
             this.saveSourceCode();
         }
 
-        private void OnZigFileSave(object sender, MyEventArgs e)
+        private void _OnZigFileSave(object sender, MyEventArgs e)
         {
-            
         }
 
         private void OnZigFileRun(object sender, MyEventArgs e)

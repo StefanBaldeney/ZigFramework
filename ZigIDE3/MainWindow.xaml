@@ -11,21 +11,21 @@
         Title="MainWindow" Height="768" Width="1024">
 
     <Window.Resources>
-        <local:CodeViewModel x:Key="CodeViewModel"/>
+        <!--<local:CodeViewModel x:Key="CodeViewModel"/>-->
         <local:CommandViewModel x:Key="CommandViewModel"/>
-        <local:MenuViewModel x:Key="MenuViewModel"/>
+        <!--<local:MenuViewModel x:Key="MenuViewModel"/>-->
         <local:StatusViewModel x:Key="StatusViewModel"/>
     </Window.Resources>
 
     <DockPanel>
+        <DockPanel.DataContext>
+            <local:MenuViewModel></local:MenuViewModel>
+        </DockPanel.DataContext>
 
         <Menu   DockPanel.Dock="Top"
                 x:Name="MyMenu"
                 Grid.Row="0">
-            <Menu.DataContext>
-                <local:MenuViewModel/>
-            </Menu.DataContext>
-
+            
             <MenuItem Header="Datei">
                 <MenuItem Header="Zig-Datei speichern" Command="{Binding MenuZigSaveCommand}"></MenuItem>
                 <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
@@ -91,8 +91,12 @@
         <ToolBar 
             Height="28"
             DockPanel.Dock="Top"
-            DataContext="{StaticResource AppMenuViewModel}"
             >
+            <!--DataContext="{StaticResource AppMenuViewModel}"-->
+            <!--<ToolBar.DataContext>
+                <local:MenuViewModel/>
+            </ToolBar.DataContext>-->
+            
             <Button 
                 Margin="2"
                 Width="20" Height="20" Command="{Binding MenuCompileCommand}">
@@ -110,6 +114,7 @@
             <Button 
                 Margin="2"
                 Width="20" Height="20" Command="{Binding MenuZigSaveCommand}">
+                
                 <Button.Content>
                     <ContentControl Content="{StaticResource SvgSave}"/>
                 </Button.Content>

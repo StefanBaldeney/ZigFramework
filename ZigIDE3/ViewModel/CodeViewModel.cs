@@ -38,19 +38,7 @@ namespace ZigIDE3.ViewModel
             var filePath = Path.Combine(zigPath, ZigFilename);
             this.SourceCode = loadZigFile(filePath);
         }
-
-        private void ExecuteSaveZigFileCommand(object o)
-        {
-            try
-            {
-                File.WriteAllText(ZigFilePath, SourceCode);
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show($"Ein Fehler ist aufgetreten: {ex.Message}");
-            }
-        }
-
+        
         public string ZigFilename
         {
             get => _zigFilename;
@@ -58,8 +46,6 @@ namespace ZigIDE3.ViewModel
             {
                 if (value == _zigFilename) return;
                 _zigFilename = value;
-                OnPropertyChanged(nameof(ZigFilename));
-                OnPropertyChanged(nameof(ZigFilePath));
                 OnPropertyChanged(nameof(ZigFilename));
                 OnPropertyChanged(nameof(ZigFilePath));
             }
