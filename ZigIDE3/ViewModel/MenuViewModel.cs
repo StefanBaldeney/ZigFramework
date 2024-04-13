@@ -239,39 +239,8 @@ namespace ZigIDE3.ViewModel
 
         private void ExecuteRunCommand(object parameter)
         {
-            var args = string.Empty;
+            ZigFileRun?.Invoke(this, new MyEventArgs());
 
-            var path = Settings.Default.ZigPath;
-            var exeFilename = Settings.Default.ZigExeFilename;
-
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = path,
-                FileName = exeFilename,
-                Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
-
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine("Output: " + result);
-                    this.Output = result;
-                }
-
-                using (StreamReader reader = process.StandardError)
-                {
-                    string result = reader.ReadToEnd();
-                    Console.WriteLine("Error: " + result);
-                    this.Error = result;
-                }
-
-            }
         }
 
         private void ExecuteCompileCommand(object parameter)

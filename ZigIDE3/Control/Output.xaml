@@ -10,7 +10,8 @@
 <UserControl.Resources>
     
 </UserControl.Resources>
-    <Grid DataContext="{StaticResource AppMenuViewModel}">
+
+    <Grid>
         <TextBlock 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"

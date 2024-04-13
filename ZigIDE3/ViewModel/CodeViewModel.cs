@@ -174,9 +174,12 @@ namespace ZigIDE3.ViewModel
 
         public async void Run()
         {
-            var arguments = this.ZigExeFilename;
+            //var arguments = this.ZigExeFilename;
 
-            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+            var arguments = "";
+            var exeFile = Settings.Default.ZigExeFilename;
+
+            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync(exeFile, arguments);
 
             this.Output = ausgabe;
             

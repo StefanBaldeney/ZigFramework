@@ -53,6 +53,7 @@ namespace ZigIDE3
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
             vmMenu.ZigFileCompile += VmMenu_ZigCompile;
+            vmMenu.ZigFileRun += VmCode_ZigRun;
             
             vmMenu.ZigFileSave += VmMenuOnZigFileSave;
 
@@ -82,6 +83,11 @@ namespace ZigIDE3
                     throw new InvalidOperationException("Konnte die Syntaxhervorhebungs-Ressource nicht finden: " + resourceName);
                 }
             }
+        }
+
+        private void VmCode_ZigRun(object sender, MyEventArgs e)
+        {
+            vmCode.Run();
         }
 
         private void VmMenuOnZigFileSave(object sender, MyEventArgs e)
