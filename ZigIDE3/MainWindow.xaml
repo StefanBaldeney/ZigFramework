@@ -222,9 +222,11 @@
                                     Text="{Binding Output}" 
                                      />-->
 
-                            <Control:Output 
+                            <TextBlock Text="{Binding Output}"></TextBlock>
+
+                            <!--<Control:Output 
                                 DataContext="{StaticResource CodeVM}"
-                                Grid.Column="0" />
+                                Grid.Column="0" />-->
 
                             <GridSplitter Grid.Column="1" 
                                       Width="5"
