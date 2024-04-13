@@ -3,7 +3,9 @@
 	<Color name="Comment" foreground="Green" />
 	<Color name="String" foreground="Blue" />
 	<Color name="Integer" foreground="Yellow" />
-
+	<Color name="Petrol" foreground="#00796B" />
+	<Color name="Float32Literal" foreground="Yellow" />
+	
 	<!-- This is the main ruleset. -->
 	<RuleSet>
 		<Span color="Comment" begin="//" />
@@ -18,10 +20,141 @@
 			</RuleSet>
 		</Span>
 
+		<!-- Stand Ende 2023 -->
 		<Keywords fontWeight="bold" foreground="Blue">
-			<Word>if</Word>
+			<Word>align</Word>
+			<Word>allowzero</Word>
+			<Word>and</Word>
+			<Word>async</Word>
+			<Word>await</Word>
+			<Word>break</Word>
+			<Word>catch</Word>
+			<Word>comptime</Word>
+			<Word>const</Word>
+			<Word>continue</Word>
+			<Word>defer</Word>
 			<Word>else</Word>
-			<!-- ... -->
+			<Word>enum</Word>
+			<Word>errdefer</Word>
+			<Word>error</Word>
+			<Word>export</Word>
+			<Word>extern</Word>
+			<Word>fn</Word>
+			<Word>for</Word>
+			<Word>if</Word>
+			<Word>inline</Word>
+			<Word>noinline</Word>
+			<Word>noalias</Word>
+			<Word>opaque</Word>
+			<Word>or</Word>
+			<Word>packed</Word>
+			<Word>pub</Word>
+			<Word>resume</Word>
+			<Word>return</Word>
+			<Word>struct</Word>
+			<Word>suspend</Word>
+			<Word>switch</Word>
+			<Word>test</Word>
+			<Word>try</Word>
+			<Word>undefined</Word>
+			<Word>union</Word>
+			<Word>usingnamespace</Word>
+			<Word>var</Word>
+			<Word>volatile</Word>
+			<Word>while</Word>
+		</Keywords>
+
+		<Keywords foreground="#00796B">
+
+			<Word>@addWithOverflow</Word>
+			<Word>@alignCast</Word>
+			<Word>@alignOf</Word>
+			<Word>@as</Word>
+			<Word>@bitCast</Word>
+			<Word>@bitOffsetOf</Word>
+			<Word>@bitSizeOf</Word>
+			<Word>@boolToInt</Word>
+			<Word>@breakpoint</Word>
+			<Word>@byteOffsetOf</Word>
+			<Word>@byteSwap</Word>
+			<Word>@call</Word>
+			<Word>@cDefine</Word>
+			<Word>@cImport</Word>
+			<Word>@cInclude</Word>
+			<Word>@clz</Word>
+			<Word>@cmpxchgStrong</Word>
+			<Word>@cmpxchgWeak</Word>
+			<Word>@compileError</Word>
+			<Word>@compileLog</Word>
+			<Word>@ctz</Word>
+			<Word>@divCeil</Word>
+			<Word>@divExact</Word>
+			<Word>@divFloor</Word>
+			<Word>@divTrunc</Word>
+			<Word>@embedFile</Word>
+			<Word>@enumToInt</Word>
+			<Word>@errName</Word>
+			<Word>@errorName</Word>
+			<Word>@errorReturnTrace</Word>
+			<Word>@export</Word>
+			<Word>@fence</Word>
+			<Word>@field</Word>
+			<Word>@fieldParentPtr</Word>
+			<Word>@floatCast</Word>
+			<Word>@floatToInt</Word>
+			<Word>@frame</Word>
+			<Word>@frameAddress</Word>
+			<Word>@frameSize</Word>
+			<Word>@intToFloat</Word>
+			<Word>@import</Word>
+			<Word>@intCast</Word>
+			<Word>@intToPtr</Word>
+			<Word>@invoke</Word>
+			<Word>@isError</Word>
+			<Word>@isTest</Word>
+			<Word>@memcpy</Word>
+			<Word>@memset</Word>
+			<Word>@mod</Word>
+			<Word>@mulWithOverflow</Word>
+			<Word>@panic</Word>
+			<Word>@popCount</Word>
+			<Word>@ptrCast</Word>
+			<Word>@ptrToInt</Word>
+			<Word>@reduce</Word>
+			<Word>@rem</Word>
+			<Word>@returnAddress</Word>
+			<Word>@rotateLeft</Word>
+			<Word>@rotateRight</Word>
+			<Word>@select</Word>
+			<Word>@setAlignStack</Word>
+			<Word>@setCold</Word>
+			<Word>@setEvalBranchQuota</Word>
+			<Word>@setFloatMode</Word>
+			<Word>@setGlobalLinkage</Word>
+			<Word>@setGlobalSection</Word>
+			<Word>@setRuntimeSafety</Word>
+			<Word>@setStackSize</Word>
+			<Word>@shlExact</Word>
+			<Word>@shrExact</Word>
+			<Word>@shuffle</Word>
+			<Word>@simdBitselect</Word>
+			<Word>@sizeOf</Word>
+			<Word>@splat</Word>
+			<Word>@sqrt</Word>
+			<Word>@tagName</Word>
+			<Word>@tagType</Word>
+			<Word>@This</Word>
+			<Word>@truncate</Word>
+			<Word>@Type</Word>
+			<Word>@typeId</Word>
+			<Word>@typeName</Word>
+			<Word>@typeOf</Word>
+			<Word>@unionInit</Word>
+			<Word>@vectorType</Word>
+			<Word>@wasmMemorySize</Word>
+			<Word>@wasmMemoryGrow</Word>
+			<Word>@yield</Word>
+
 		</Keywords>
 
 		<!-- Digits -->
@@ -33,6 +166,7 @@
 			)
 			([eE][+-]?[0-9]+)? # optional exponent
 		</Rule>
+		
 	</RuleSet>
 </SyntaxDefinition>
 

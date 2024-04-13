@@ -66,7 +66,14 @@ namespace ZigIDE3
                 {
                     using (XmlReader reader = new XmlTextReader(stream))
                     {
-                        Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                        try
+                        {
+                            Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine("Fehler in avalon syntax highlighting file Zig.xshd");
+                        }
                     }
                 }
                 else
