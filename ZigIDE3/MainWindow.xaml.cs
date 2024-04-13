@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -95,6 +96,8 @@ namespace ZigIDE3
         private void VmMenu_ZigCompile(object sender, MyEventArgs e)
         {
             vmCode.Compile();
+            
+            vmStatus.UpdateAll();
         }
 
         private void FilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

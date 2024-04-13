@@ -145,14 +145,20 @@ namespace ZigIDE3.ViewModel
 
             if (ausgabe.Equals(string.Empty))
             {
-                this.Status = "Erstellen erfolgreich";
-                //this.Output = "Erstellen erfolgreich";
-
-                this.ZigExeFilename = this.ZigFilename + ".exe";
-
+                var exeFile = getExeNameFromZigFile(this.ZigFilename);
+                this.ZigExeFilename = exeFile;
+                Settings.Default.ZigExeFilename = exeFile;
+                // todo benachrichtigen, dass das Kompilieren geklappt hat
             }
             
             Console.WriteLine(ausgabe);
+        }
+
+        private string getExeNameFromZigFile(string zigFilename)
+        {
+            var pos = zigFilename.IndexOf(".zig");
+            var exeName = zigFilename.Substring(0, pos) + ".exe";
+            return exeName;
         }
 
         public string Status

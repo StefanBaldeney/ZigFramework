@@ -12,12 +12,13 @@ namespace ZigIDE3.ViewModel
             zigPath = Settings.Default.ZigPath;
         }
 
-
         private string status = "Bereit";
         public string Status => status;
 
         private string zigPath;
         public string ZigPath => zigPath;
+
+        public string ZigExeFile => Settings.Default.ZigExeFilename;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,6 +38,12 @@ namespace ZigIDE3.ViewModel
         public void ChangeZigPath(string nachricht)
         {
             SetField(ref zigPath, nachricht, nameof(ZigPath));
+        }
+
+        public void UpdateAll()
+        {
+            //OnPropertyChanged();
+            OnPropertyChanged("ZigExeFile");
         }
     }
 }

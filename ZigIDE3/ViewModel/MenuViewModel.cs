@@ -241,10 +241,13 @@ namespace ZigIDE3.ViewModel
         {
             var args = string.Empty;
 
+            var path = Settings.Default.ZigPath;
+            var exeFilename = Settings.Default.ZigExeFilename;
+
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                WorkingDirectory = Properties.Settings.Default.ZigPath,
-                FileName = "hello_world.exe",
+                WorkingDirectory = path,
+                FileName = exeFilename,
                 Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
