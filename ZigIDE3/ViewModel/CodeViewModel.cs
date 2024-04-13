@@ -141,9 +141,9 @@ namespace ZigIDE3.ViewModel
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
             var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
 
-            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+            var ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
 
-            if (ausgabe.Equals(string.Empty))
+            if (ausgabe.Item1.Equals(string.Empty))
             {
                 var exeFile = getExeNameFromZigFile(this.ZigFilename);
                 this.ZigExeFilename = exeFile;
@@ -176,11 +176,12 @@ namespace ZigIDE3.ViewModel
         {
             var arguments = "";
             var exeFile = Path.Combine(Settings.Default.ZigPath, Settings.Default.ZigExeFilename);
-            string ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync(exeFile, arguments);
+            var result = await StarteProzessMitArgumentenUndLeseAusgabeAsync(exeFile, arguments);
 
-            this.Output = ausgabe;
+            this.Output = result.Item1;
             
-            Console.WriteLine(ausgabe);
+            Console.WriteLine("Output: " + result.Item1);
+            Console.WriteLine("Fehler: " + result.Item2);
         }
 
         public string ZigExeFilename
@@ -194,7 +195,7 @@ namespace ZigIDE3.ViewModel
             }
         }
 
-        public async Task<string> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
+        public async Task<Tuple<string, string>> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
             // Konfiguriere die Startinformationen des Prozesses
             ProcessStartInfo startInfo = new ProcessStartInfo()
@@ -204,6 +205,7 @@ namespace ZigIDE3.ViewModel
                 Arguments = argumente,
                 UseShellExecute = false, // Ermöglicht die Umleitung der Standardausgabe
                 RedirectStandardOutput = true, // Leitet die Standardausgabe um, sodass sie gelesen werden kann
+                RedirectStandardError = true,
                 CreateNoWindow = true // Verhindert das Erstellen eines Fensters für den Prozess
             };
 
@@ -215,12 +217,13 @@ namespace ZigIDE3.ViewModel
                 prozess.Start();
 
                 // Lese die Standardausgabe des Prozesses
-                string ausgabe = await prozess.StandardOutput.ReadToEndAsync();
+                var output = await prozess.StandardOutput.ReadToEndAsync();
+                var error = await prozess.StandardError.ReadToEndAsync();
 
                 // Warte, bis der Prozess beendet ist
                 prozess.WaitForExit();
 
-                return ausgabe;
+                return new Tuple<string, string>(output,error);
             }
         }
 

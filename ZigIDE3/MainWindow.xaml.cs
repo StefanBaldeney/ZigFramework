@@ -21,11 +21,8 @@ namespace ZigIDE3
             InitializeComponent();
             
             this.Title = "ZigIDE3 by Stefan Brandt";
-
             this.LocationChanged += Windows_LocationChanged;
-            
             this.Loaded += Window_Loaded;
-            
         }
         
         private void Windows_LocationChanged(object sender, EventArgs e)
@@ -62,6 +59,7 @@ namespace ZigIDE3
 
             var assembly = Assembly.GetExecutingAssembly();
             
+            // syntax highlighting
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 if (stream != null)
@@ -101,8 +99,8 @@ namespace ZigIDE3
         }
         private void VmMenu_ZigCompile(object sender, MyEventArgs e)
         {
+            // todo async problem
             vmCode.Compile();
-            
             vmStatus.UpdateAll();
         }
 
@@ -157,7 +155,6 @@ namespace ZigIDE3
                 MessageBox.Show($"Fehler beim Öffnen der Webseite: {ex.Message}");
             }
         }
-
         
         public void _OpenFile_Click(object sender, RoutedEventArgs e)
         {
@@ -201,9 +198,7 @@ namespace ZigIDE3
         private MenuViewModel vmMenu;
         private StatusViewModel vmStatus;
         private CodeViewModel vmCode;
-
-        // public string ZigOutput => output;
-
+        
         public string SourceCode
         {
             get { return GetContent(); }
