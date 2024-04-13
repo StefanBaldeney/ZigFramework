@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:ZigIDE3.ViewModel"
              mc:Ignorable="d" 
-             Background="Orange"
+             Background="LightGray"
              d:DesignHeight="450" d:DesignWidth="800">
 <UserControl.Resources>
     
@@ -15,7 +15,7 @@
         <TextBlock 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Text="{Binding Output}">
+                Text="{Binding }">
         </TextBlock>  
     </Grid>
 </UserControl>

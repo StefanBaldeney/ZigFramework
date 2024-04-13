@@ -217,16 +217,10 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-
-                            <!--<TextBox    Grid.Column="0" 
-                                    Text="{Binding Output}" 
-                                     />-->
-
-                            <TextBlock Text="{Binding Output}"></TextBlock>
-
-                            <!--<Control:Output 
-                                DataContext="{StaticResource CodeVM}"
-                                Grid.Column="0" />-->
+                            
+                            <Control:Output 
+                                Content="{Binding Output}"
+                                Grid.Column="0" />
 
                             <GridSplitter Grid.Column="1" 
                                       Width="5"
