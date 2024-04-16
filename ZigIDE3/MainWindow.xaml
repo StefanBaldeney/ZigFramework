@@ -61,7 +61,12 @@
                     </MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Test"></MenuItem>
+            <MenuItem Header="Test">
+                <MenuItem 
+                    Header="Zig-Tests ausführen" 
+                    Command="{Binding MenuTestRunner}">
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="Extras">
                 <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
             </MenuItem>

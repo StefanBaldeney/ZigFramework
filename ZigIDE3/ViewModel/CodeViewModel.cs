@@ -276,6 +276,22 @@ namespace ZigIDE3.ViewModel
             return;
         }
 
+        public async void StartTestRunner()
+        {
+            var absoluteZigFile = Path.Combine(Settings.Default.ZigPath, Settings.Default.CurrentZigFilename);
+
+            var arguments = " test " + absoluteZigFile;
+            // var exeFile = Path.Combine(Settings.Default.);
+            var result = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+
+            this.Output = result.Item2;
+            //this.Errors = result.Item2;
+
+            Console.WriteLine("Output: " + result.Item1);
+            // Console.WriteLine("Fehler: " + result.Item2);
+
+            this.Errors = null;
+        }
     }
 
     /// <summary></summary>

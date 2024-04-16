@@ -25,6 +25,8 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuCompileCommand { get; }
         public ICommand MenuVersionCommand { get; }
         public ICommand MenuRunCommand { get; }
+        public ICommand MenuTestRunner { get; }
+
         public ICommand MenuEnvCommand { get; }
         public ICommand MenuZigDocumentationCommand { get; }
 
@@ -52,6 +54,7 @@ namespace ZigIDE3.ViewModel
         public event EventHandler<MyEventArgs> ZigFileCompile;
         public event EventHandler<MyEventArgs> ZigFileSave;
         public event EventHandler<MyEventArgs> ZigFileRun;
+        public event EventHandler<MyEventArgs> ZigTestRunner;
 
         protected virtual void OnMeinEventMitDaten(MyEventArgs e)
         {
@@ -67,6 +70,7 @@ namespace ZigIDE3.ViewModel
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
 
             MenuRunCommand = new RelayCommand(ExecuteRunCommand);
+            MenuTestRunner = new RelayCommand(ExecuteTestRunner);
             MenuVersionCommand = new RelayCommand(ExecuteVersionCommand);
 
             MenuZigSaveCommand = new RelayCommand(ExecuteZigSaveCommand);
@@ -259,6 +263,11 @@ namespace ZigIDE3.ViewModel
         {
             ZigFileRun?.Invoke(this, new MyEventArgs());
 
+        }
+
+        private void ExecuteTestRunner(object parameter)
+        {
+            ZigTestRunner?.Invoke(this, new MyEventArgs());
         }
 
         private void ExecuteCompileCommand(object parameter)

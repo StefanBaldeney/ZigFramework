@@ -54,6 +54,8 @@ namespace ZigIDE3
             
             vmMenu.ZigFileSave += VmMenuOnZigFileSave;
 
+            vmMenu.ZigTestRunner += VmMenuZigTestRunner;
+
             // Avalon
             string resourceName = "ZigIDE3.avalon.Zig.xshd";
 
@@ -81,6 +83,11 @@ namespace ZigIDE3
                     throw new InvalidOperationException("Konnte die Syntaxhervorhebungs-Ressource nicht finden: " + resourceName);
                 }
             }
+        }
+
+        private void VmMenuZigTestRunner(object sender, MyEventArgs e)
+        {
+            vmCode.StartTestRunner();
         }
 
         private void VmCode_ZigRun(object sender, MyEventArgs e)
