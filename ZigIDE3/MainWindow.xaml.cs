@@ -70,7 +70,7 @@ namespace ZigIDE3
                         {
                             Avalon.SyntaxHighlighting = HighlightingLoader.Load(reader, HighlightingManager.Instance);
                         }
-                        catch (Exception exception)
+                        catch (Exception)
                         {
                             Console.WriteLine("Fehler in avalon syntax highlighting file Zig.xshd");
                         }

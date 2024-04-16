@@ -7,14 +7,36 @@
              mc:Ignorable="d" 
              Background="Gray"
              d:DesignHeight="240" d:DesignWidth="240">
+
+    <UserControl.Resources>
+        <local:ZigErrorValueConverter x:Key="ZigConverter"/>
+    </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
+        <!--<StackPanel Orientation="Horizontal">
             <Label Width="68">Fehlerliste</Label>
             <Label MinWidth="12">_______________________________________________________________________________________________________________________________________________________</Label>
-        </StackPanel>
-        <ListBox>
-                <ListBoxItem>Apfel</ListBoxItem>
-                <ListBoxItem>Birne</ListBoxItem>
-        </ListBox>
+        </StackPanel>-->
+        <GroupBox Header="Fehlermeldungen">
+            <ListBox 
+                SelectionChanged="OnContentChanged"
+                ItemsSource="{Binding Errors, Converter={StaticResource ZigConverter}}"
+            >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Zeile}" />
+                            <TextBlock Grid.Column="1" Text="{Binding Spalte}" />
+                            <TextBlock Grid.Column="2" Text="{Binding Message}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        
     </StackPanel>
 </UserControl>

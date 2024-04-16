@@ -17,7 +17,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace ZigIDE3.ViewModel
 {
-    public class MenuViewModel : INotifyPropertyChanged, ILocalizationChanged
+    public class MenuViewModel : INotifyPropertyChanged //, ILocalizationChanged
     {
         private string _output = "output";
         public ICommand MenuBeendenCommand { get; }
@@ -29,6 +29,7 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuZigDocumentationCommand { get; }
 
         public ICommand MenuZigSaveCommand { get; }
+        public ICommand MenuZigSaveAsCommand { get; }
 
         #region  ReleaseTypes
         public ICommand MenuOptionDebugCommand { get; }
@@ -69,6 +70,7 @@ namespace ZigIDE3.ViewModel
             MenuVersionCommand = new RelayCommand(ExecuteVersionCommand);
 
             MenuZigSaveCommand = new RelayCommand(ExecuteZigSaveCommand);
+            MenuZigSaveAsCommand = new RelayCommand(ExecuteZigSaveAsCommand);
 
             MenuOptionDebugCommand = new RelayCommand(ExecuteDebugCommand);
             MenuOptionReleaseFastCommand = new RelayCommand(ExecuteReleaseFast);
@@ -80,7 +82,7 @@ namespace ZigIDE3.ViewModel
             MenuZigDocumentationCommand = new RelayCommand(ExecuteZigDocumentation);
 
 
-            this.LocalizationChanged += MenuViewModel_LocalizationChanged;
+            // this.LocalizationChanged += MenuViewModel_LocalizationChanged;
             this.ZigFileRun += OnZigFileRun;
             
             //this.ZigFileSave += OnZigFileSave;
@@ -88,6 +90,22 @@ namespace ZigIDE3.ViewModel
         
         private void ExecuteZigSaveCommand(object obj)
         {
+            this.saveSourceCode();
+        }
+
+        private void ExecuteZigSaveAsCommand(object obj)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Zigdateien (*.zig)|*.zig";  // Filter für zig dateien
+            saveFileDialog.InitialDirectory = Settings.Default.ZigPath;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = saveFileDialog.FileName;
+                Settings.Default.CurrentZigFilename = filePath;
+            }
+
+
             this.saveSourceCode();
         }
 
@@ -266,6 +284,6 @@ namespace ZigIDE3.ViewModel
 
         public string Error { get; set; }
         
-        public event EventHandler LocalizationChanged;
+        // public event EventHandler LocalizationChanged;
     }
 }

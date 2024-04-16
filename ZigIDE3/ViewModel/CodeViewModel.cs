@@ -24,7 +24,14 @@ namespace ZigIDE3.ViewModel
 
             if (Directory.Exists(path))
             {
-                LoadFilesFromZigPathAsync();
+                try
+                {
+                    LoadFilesFromZigPathAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
 
@@ -32,7 +39,7 @@ namespace ZigIDE3.ViewModel
         {
             var zigPath = Settings.Default.ZigPath;
 
-            this.ZigFilename = obj as string;
+            this.ZigFilename = (obj as FileInfo).Name;
             Settings.Default.CurrentZigFilename = this.ZigFilename;
 
             var filePath = Path.Combine(zigPath, ZigFilename);
@@ -94,26 +101,21 @@ namespace ZigIDE3.ViewModel
         {
             var zigPath = Settings.Default.ZigPath;
             var list = loadFilesFromZigPath(zigPath);
-            await Task.Delay(500);
+            await Task.Delay(750);
 
-            this.dateiListe = list.ToList();
+            this.dateiListe = list;
 
             OnPropertyChanged(nameof(DateiListe));
         }
 
-        private IEnumerable<string> loadFilesFromZigPath(string path)
+        private IEnumerable<FileInfo> loadFilesFromZigPath(string path)
         {
                 DirectoryInfo dir = new DirectoryInfo(path);
                 FileInfo[] files = dir.GetFiles(); // Dateien im Ordner
 
-                var list= new List<string>();
-
-                foreach (FileInfo file in files)
-                {
-                    list.Add(file.Name);
-                }
-
-                return list;
+                var zigFiles = files.Where(item => item.Name.EndsWith(".zig"));
+            
+                return zigFiles;
         }
 
         private string loadZigFile(string filePath)
@@ -131,7 +133,7 @@ namespace ZigIDE3.ViewModel
             return null;
         }
 
-        public async void Save()
+        public void Save()
         {
             saveSourceCode();
         }
@@ -143,15 +145,19 @@ namespace ZigIDE3.ViewModel
 
             var ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
 
-            if (ausgabe.Item1.Equals(string.Empty))
+            if (ausgabe.Item2.Equals(string.Empty))
             {
+                this.Errors = null;
                 var exeFile = getExeNameFromZigFile(this.ZigFilename);
                 this.ZigExeFilename = exeFile;
                 Settings.Default.ZigExeFilename = exeFile;
                 // todo benachrichtigen, dass das Kompilieren geklappt hat
             }
-            
-            Console.WriteLine(ausgabe);
+            else
+            {
+                this.Errors = ausgabe.Item2;
+            }
+            Console.WriteLine("Error: " + ausgabe.Item2);
         }
 
         private string getExeNameFromZigFile(string zigFilename)
@@ -227,13 +233,14 @@ namespace ZigIDE3.ViewModel
             }
         }
 
-        private IList<string> dateiListe= new List<string>();
+        private IEnumerable<FileInfo> dateiListe= new List<FileInfo>();
         private string _zigFilename;
-        private string _output="c";
+        private string _output="default";
         private string _errors;
         private string _status;
         private string _zigExeFilename;
-        public IList<string> DateiListe => dateiListe;
+        
+        public IEnumerable<FileInfo> DateiListe => dateiListe;
 
         public string Output
         {
@@ -265,6 +272,8 @@ namespace ZigIDE3.ViewModel
             {
                 Console.WriteLine($"Ein Fehler ist aufgetreten: {ex.Message}");
             }
+
+            return;
         }
 
     }
