@@ -64,7 +64,7 @@
             <MenuItem Header="Test">
                 <MenuItem 
                     Header="Zig-Tests ausführen" 
-                    Command="{Binding MenuTestRunner}">
+                    Command="{Binding MenuTestCommand}">
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Extras">
@@ -87,34 +87,58 @@
             </MenuItem>
         </Menu>
 
-        <ToolBar 
-            Height="28"
-            DockPanel.Dock="Top"
+        <ToolBar  
+                Height="36"
+                DockPanel.Dock="Top"
             >
-            <Button 
-                Margin="2"
-                Width="20" Height="20" Command="{Binding MenuZigSaveCommand}">
+                <Button 
+                    Margin="2"
+                    Width="32" Height="32" Command="{Binding MenuZigSaveCommand}">
+                    <Button.Content>
+                        <ContentControl Content="{StaticResource SvgSave}"/>
+                    </Button.Content>
+                </Button>
 
-                <Button.Content>
-                    <ContentControl Content="{StaticResource SvgSave}"/>
-                </Button.Content>
+                <Button 
+                    Margin="2"
+                    Width="32" Height="32" Command="{Binding MenuCompileCommand}">
+                    <Button.Content>
+                        <ContentControl Content="{StaticResource SvgCompile}"/>
+                    </Button.Content>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                        <MenuItem Header="ReleaseSafe" CommandParameter="ReleaseSafe" Command="{Binding MenuCompileCommand}"/>
+                        <MenuItem Header="ReleaseSmall" CommandParameter="ReleaseSmall" Command="{Binding MenuCompileCommand}"/>
+                        <MenuItem Header="ReleaseFast" CommandParameter="ReleaseFast" Command="{Binding MenuCompileCommand}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+            </Button>
+                <Button 
+                    Margin="2"
+                    Width="32" Height="32" Command="{Binding MenuRunCommand}">
+                    <Button.Content>
+                        <ContentControl Content="{StaticResource SvgRun}"/>
+                    </Button.Content>
             </Button>
 
-            <Button 
-                Margin="2"
-                Width="20" Height="20" Command="{Binding MenuCompileCommand}">
+                <Button 
+                    Margin="2"
+                    Width="32" Height="32" Command="{Binding MenuTestCommand}">
+                    <Button.Content>
+                        <ContentControl Content="{StaticResource SvgTest}"/>
+                    </Button.Content>
+                </Button>
+
+            <ContentControl Width="Auto" Background="Gray"  HorizontalAlignment="Stretch"/>
+
+            <Button  
+                  Margin="2"
+                  IsEnabled="False"
+                  Width="32" Height="32" Command="{Binding MenuGermanCommand}">
                 <Button.Content>
-                    <ContentControl Content="{StaticResource SvgCompile}"/>
+                    <ContentControl Content="{StaticResource SvgGerman}"/>
                 </Button.Content>
             </Button>
-            <Button 
-                Margin="2"
-                Width="20" Height="20" Command="{Binding MenuRunCommand}">
-                <Button.Content>
-                    <ContentControl Content="{StaticResource SvgRun}"/>
-                </Button.Content>
-            </Button>
-            
         </ToolBar>
 
         <StatusBar 

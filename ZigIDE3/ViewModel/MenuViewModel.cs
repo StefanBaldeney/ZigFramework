@@ -25,7 +25,7 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuCompileCommand { get; }
         public ICommand MenuVersionCommand { get; }
         public ICommand MenuRunCommand { get; }
-        public ICommand MenuTestRunner { get; }
+        public ICommand MenuTestCommand { get; }
 
         public ICommand MenuEnvCommand { get; }
         public ICommand MenuZigDocumentationCommand { get; }
@@ -70,7 +70,7 @@ namespace ZigIDE3.ViewModel
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
 
             MenuRunCommand = new RelayCommand(ExecuteRunCommand);
-            MenuTestRunner = new RelayCommand(ExecuteTestRunner);
+            MenuTestCommand = new RelayCommand(ExecuteTestRunner);
             MenuVersionCommand = new RelayCommand(ExecuteVersionCommand);
 
             MenuZigSaveCommand = new RelayCommand(ExecuteZigSaveCommand);
@@ -272,7 +272,11 @@ namespace ZigIDE3.ViewModel
 
         private void ExecuteCompileCommand(object parameter)
         {
-            ZigFileCompile?.Invoke(this, new MyEventArgs());
+            var args = new MyEventArgs
+            {
+                Nachricht = parameter.ToString()
+            };
+            ZigFileCompile?.Invoke(this, args);
         }
 
         public string Output

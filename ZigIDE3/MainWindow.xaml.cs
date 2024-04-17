@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq.Expressions;
+using System.Net.Configuration;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -10,6 +12,7 @@ using System.Windows;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ZigIDE3.Properties;
 using ZigIDE3.ViewModel;
 
 namespace ZigIDE3
@@ -107,6 +110,23 @@ namespace ZigIDE3
         private void VmMenu_ZigCompile(object sender, MyEventArgs e)
         {
             // todo async problem
+
+            switch (e.Nachricht.ToLower())
+            {
+                case "releasefast":
+                    Settings.Default.ReleaseType = "ReleaseFast";
+                    break;
+                case "releasesmall":
+                    Settings.Default.ReleaseType = "ReleaseSmall";
+                    break;
+                case "releasesafe":
+                    Settings.Default.ReleaseType = "ReleaseSafe";
+                    break;
+                default:
+                    Settings.Default.ReleaseType = "ReleaseDebug";
+                    break;
+            }
+
             vmCode.Compile();
             vmStatus.UpdateAll();
         }
