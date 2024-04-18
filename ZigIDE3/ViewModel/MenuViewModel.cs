@@ -27,6 +27,8 @@ namespace ZigIDE3.ViewModel
         public ICommand MenuRunCommand { get; }
         public ICommand MenuTestCommand { get; }
 
+        public ICommand MenuClipboardCommand { get; }
+
         public ICommand MenuEnvCommand { get; }
         public ICommand MenuZigDocumentationCommand { get; }
 
@@ -83,6 +85,8 @@ namespace ZigIDE3.ViewModel
 
             MenuEnvCommand = new RelayCommand(ExecuteEnvironment);
 
+            MenuClipboardCommand = new RelayCommand(ExecuteClipboard);
+
             MenuZigDocumentationCommand = new RelayCommand(ExecuteZigDocumentation);
 
 
@@ -91,8 +95,23 @@ namespace ZigIDE3.ViewModel
             
             //this.ZigFileSave += OnZigFileSave;
         }
-        
-        private void ExecuteZigSaveCommand(object obj)
+
+        private void ExecuteClipboard(object obj)
+        {
+            var option = obj.ToString();
+
+            switch (option)
+            {
+                case "Cut":
+
+                    break;
+            }
+
+
+
+            }
+
+            private void ExecuteZigSaveCommand(object obj)
         {
             this.saveSourceCode();
         }
@@ -274,7 +293,7 @@ namespace ZigIDE3.ViewModel
         {
             var args = new MyEventArgs
             {
-                Nachricht = parameter.ToString()
+                Nachricht = parameter?.ToString()
             };
             ZigFileCompile?.Invoke(this, args);
         }

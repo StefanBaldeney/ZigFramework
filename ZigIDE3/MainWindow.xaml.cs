@@ -111,7 +111,7 @@ namespace ZigIDE3
         {
             // todo async problem
 
-            switch (e.Nachricht.ToLower())
+            switch (e.Nachricht?.ToLower())
             {
                 case "releasefast":
                     Settings.Default.ReleaseType = "ReleaseFast";

@@ -28,8 +28,13 @@
                 <MenuItem Header="Zig-Datei speichern unter.." Command="{Binding MenuZigSaveAsCommand}"></MenuItem>
                 <MenuItem Header="Beenden" Command="{Binding MenuBeendenCommand}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Bearbeiten"></MenuItem>
-            <MenuItem Header="Erstellen">
+            <MenuItem Header="Bearbeiten">
+                <MenuItem Header="Cut" CommandParameter="Cut" Command="{Binding MenuClipboardCommand}"/>
+                <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding MenuClipboardCommand}"/>
+                <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding MenuClipboardCommand}"/>
+            </MenuItem>
+
+                <MenuItem Header="Erstellen">
                 <MenuItem 
                               Header="Compile" 
                               Command="{Binding MenuCompileCommand}">
@@ -107,9 +112,9 @@
                     </Button.Content>
                     <Button.ContextMenu>
                         <ContextMenu>
-                        <MenuItem Header="ReleaseSafe" CommandParameter="ReleaseSafe" Command="{Binding MenuCompileCommand}"/>
-                        <MenuItem Header="ReleaseSmall" CommandParameter="ReleaseSmall" Command="{Binding MenuCompileCommand}"/>
-                        <MenuItem Header="ReleaseFast" CommandParameter="ReleaseFast" Command="{Binding MenuCompileCommand}"/>
+                         <MenuItem Header="ReleaseSafe" CommandParameter="ReleaseSafe" Command="{Binding MenuCompileCommand}"/>
+                         <MenuItem Header="ReleaseSmall" CommandParameter="ReleaseSmall" Command="{Binding MenuCompileCommand}"/>
+                         <MenuItem Header="ReleaseFast" CommandParameter="ReleaseFast" Command="{Binding MenuCompileCommand}"/>
                         </ContextMenu>
                     </Button.ContextMenu>
             </Button>
@@ -217,7 +222,7 @@
                     DataContext="{StaticResource AppCodeViewModel}"
                     Grid.Column="2">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" MinHeight="24"></RowDefinition>
+                            <RowDefinition Height="*" MinHeight="100"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto" MinHeight="24"></RowDefinition>
                         </Grid.RowDefinitions>
@@ -225,11 +230,19 @@
                         <!-- Editor -->
                         <avalonedit:TextEditor 
                             x:Name ="Avalon"
-                        ShowLineNumbers="True"
-                        Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            Grid.Row="0" 
+                            ShowLineNumbers="True"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <b:Interaction.Behaviors>
                                 <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
                             </b:Interaction.Behaviors>
+                            <avalonedit:TextEditor.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Cut" CommandParameter="Cut" Command="{Binding CodeClipboardCommand}"/>
+                                    <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding CodeClipboardCommand}"/>
+                                    <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding CodeClipboardCommand}"/>
+                                </ContextMenu>
+                            </avalonedit:TextEditor.ContextMenu>
                         </avalonedit:TextEditor>
 
                         <GridSplitter Grid.Row="1" 

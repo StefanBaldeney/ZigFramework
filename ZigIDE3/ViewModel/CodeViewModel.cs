@@ -22,6 +22,8 @@ namespace ZigIDE3.ViewModel
 
             SelectionChangedCommand = new RelayCommand(ExecuteLoadFileCommand);
 
+            CodeClipboardCommand = new RelayCommand(ExecuteClipboardCommand);
+
             if (Directory.Exists(path))
             {
                 try
@@ -32,6 +34,35 @@ namespace ZigIDE3.ViewModel
                 {
                     Console.WriteLine(e);
                 }
+            }
+        }
+
+
+        // todo clipboard implementieren
+        private void ExecuteClipboardCommand(object obj)
+        {
+            try
+            {
+                var option = obj.ToString();
+                switch(option)
+                {
+                    case "Cut":
+                        var text = "Elvira Hugendubel";
+                        Clipboard.SetText(text);
+                        break;
+                    case "Copy":
+                        var text2 = "Elvira Hugendubel";
+                        Clipboard.SetText(text2);
+                        break;
+                    case "Paste":
+                        var insertText = Clipboard.GetText();
+                        SourceCode += insertText;
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -64,6 +95,8 @@ namespace ZigIDE3.ViewModel
 
         public ICommand SelectionChangedCommand { get; }
         
+        public ICommand CodeClipboardCommand { get; }
+
         private string _sourceCode;
 
         public string Errors
@@ -85,8 +118,6 @@ namespace ZigIDE3.ViewModel
                 if (_sourceCode != value)
                 {
                     _sourceCode = value;
-                    OnPropertyChanged(nameof(SourceCode));
-                    OnPropertyChanged(nameof(SourceCode));
                     OnPropertyChanged(nameof(SourceCode));
                 }
             }
@@ -133,6 +164,11 @@ namespace ZigIDE3.ViewModel
             return null;
         }
 
+        public void Paste()
+        {
+
+        }
+
         public void Save()
         {
             saveSourceCode();
@@ -140,6 +176,8 @@ namespace ZigIDE3.ViewModel
 
         public async void Compile()
         {
+            
+
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
             var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
 
