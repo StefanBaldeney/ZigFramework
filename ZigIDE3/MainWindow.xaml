@@ -228,7 +228,9 @@
                         </Grid.RowDefinitions>
 
                         <!-- Editor -->
+                        <!-- Anmerkungen: AllowDrop eigentlich nicht notwendig -->
                         <avalonedit:TextEditor 
+                            AllowDrop="True"
                             x:Name ="Avalon"
                             Grid.Row="0" 
                             ShowLineNumbers="True"

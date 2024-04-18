@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
@@ -86,6 +87,23 @@ namespace ZigIDE3
                     throw new InvalidOperationException("Konnte die Syntaxhervorhebungs-Ressource nicht finden: " + resourceName);
                 }
             }
+
+            Avalon.CaretOffset = 0;
+            Avalon.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+            Avalon.Drop += Avalon_Drop;
+            Avalon.DragEnter += AvalonOnDragEnter;
+
+
+        }
+
+        private void AvalonOnDragEnter(object sender, DragEventArgs e)
+        {
+            vmCode.DragEnter(e);
+        }
+
+        private void Avalon_Drop(object sender, DragEventArgs e)
+        {
+            vmCode.Drop(e);
         }
 
         private void VmMenuZigTestRunner(object sender, MyEventArgs e)

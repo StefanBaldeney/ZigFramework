@@ -330,6 +330,50 @@ namespace ZigIDE3.ViewModel
 
             this.Errors = null;
         }
+
+        public void Drop(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.Length > 0)
+                {
+                    try
+                    {
+                        string text = File.ReadAllText(files[0]);
+                        this.SourceCode += text;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Fehler beim Lesen der Datei: " + ex.Message);
+                    }
+                }
+            }
+
+        }
+
+        public void DragEnter(DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.None;
+
+            // Überprüfen, ob die gezogenen Daten Dateien sind
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                foreach (var file in files)
+                {
+                    if (file.EndsWith(".zig")) e.Effects = DragDropEffects.Copy;
+                    if (file.EndsWith(".txt")) e.Effects = DragDropEffects.Copy;
+                }
+                // Erlaubt dem Benutzer, die Datei hier abzulegen (zeigt einen Copy-Cursor)
+            }
+            else
+            {
+                // Nicht erlaubte Aktion (zeigt einen "Verboten"-Cursor)
+            }
+            e.Handled = true; // Gibt an, dass das Ereignis behandelt wurde
+        }
     }
 
     /// <summary></summary>
