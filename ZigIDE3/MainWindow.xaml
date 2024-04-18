@@ -157,43 +157,49 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
             </Grid>
 
-            <Label Grid.Column="0"
+            <Label ToolTip="Status"
+                   Grid.Column="0"
                    MinWidth="40"
                    Width="60"
                    Content="{Binding Status}"
             ></Label>
 
-            <Label Tag="ZigPath"
+            <TextBlock Tag="ZigPath"
+                   ToolTip="ZigFilePath"
                    Grid.Column="1"
                    MinWidth="40"
                    Width="Auto"
-                   Content="{Binding ZigPath}">
-            </Label>
+                   Text="{Binding ZigFilePath}">
+            </TextBlock>
 
-            <Label ToolTip="ZigExeFile"
-                   Visibility="Hidden"
+            <Label Visibility="Hidden"
                    Tag="_ExeFile"
                    Grid.Column="2"
                    MinWidth="60"
                    Width="Auto"
                    Content="{Binding ZigExeFilename}"></Label>                
             
-            <ComboBox 
-                Visibility="Hidden"
+            <ComboBox Visibility="Hidden"
                 Grid.Column="2"
                 DataContext="{StaticResource CommandVM}"
                 ItemsSource="{Binding Befehle}"
                 MinWidth="120">
             </ComboBox>
 
-            <TextBlock Grid.Column="3" Text="{Binding ZigExeFilename}"></TextBlock>
+            <TextBlock ToolTip="Zigfile" 
+                       MinWidth="80"
+                       Grid.Column="2" Text="{Binding ZigFile}"></TextBlock>
+
+            <TextBlock ToolTip="aktuelle ausführbare Datei"
+                Grid.Column="3" Text="{Binding ZigExeFilename}"></TextBlock>
 
         </StatusBar>
 
-        <Grid>
+        <Grid Tag="Content">
 
             <Grid>
                 <Grid.RowDefinitions>

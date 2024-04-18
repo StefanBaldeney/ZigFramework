@@ -88,7 +88,7 @@ namespace ZigIDE3.ViewModel
                 OnPropertyChanged(nameof(ZigFilename));
                 OnPropertyChanged(nameof(ZigFilePath));
             }
-        }
+        } 
 
         public string ZigFilePath => Path.Combine(Settings.Default.ZigPath, ZigFilename);
 
@@ -228,7 +228,7 @@ namespace ZigIDE3.ViewModel
         
         public async Task<Tuple<string, string>> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(250);
 
             // Konfiguriere die Startinformationen des Prozesses
             ProcessStartInfo startInfo = new ProcessStartInfo()
@@ -261,7 +261,7 @@ namespace ZigIDE3.ViewModel
         }
 
         private IEnumerable<FileInfo> dateiListe= new List<FileInfo>();
-        private string _zigFilename;
+        private string _zigFilename = string.Empty  ;
         private string _output="default";
         private string _errors;
         private string _status;
