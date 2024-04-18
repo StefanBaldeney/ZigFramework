@@ -49,7 +49,7 @@ namespace ZigIDE3
             this.Left = Math.Max(0, left); 
 
             vmMenu = MyMenu.DataContext as MenuViewModel;
-            vmStatus = MyStatus.DataContext as StatusViewModel;
+            //vmStatus = MyStatus.DataContext as StatusViewModel;
             vmCode = MyCode.DataContext as CodeViewModel;
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
@@ -123,7 +123,8 @@ namespace ZigIDE3
 
         private void VmMenu_ZigPathChanged(object sender, MyEventArgs e)
         {
-            vmStatus.ChangeZigPath(e.Nachricht);
+            vmCode.ChangeZigPath(e.Nachricht);
+            //vmStatus.ChangeZigPath(e.Nachricht);
         }
         private void VmMenu_ZigCompile(object sender, MyEventArgs e)
         {
@@ -146,7 +147,7 @@ namespace ZigIDE3
             }
 
             vmCode.Compile();
-            vmStatus.UpdateAll();
+            //vmStatus.UpdateAll();
         }
 
         private void FilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -241,7 +242,7 @@ namespace ZigIDE3
         private string content;
 
         private MenuViewModel vmMenu;
-        private StatusViewModel vmStatus;
+        //private StatusViewModel vmStatus;
         private CodeViewModel vmCode;
         
         public string SourceCode

@@ -14,7 +14,7 @@
         <local:CodeViewModel x:Key="CodeVM"/>
         <local:CommandViewModel x:Key="CommandVM"/>
         <local:MenuViewModel x:Key="MenuVM"/>
-        <local:StatusViewModel x:Key="StatusViewModel"/>
+        <!--<local:StatusViewModel x:Key="StatusViewModel"/>-->
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource MenuVM}">
@@ -147,7 +147,7 @@
         <StatusBar 
             x:Name="MyStatus"
             DockPanel.Dock="Bottom"
-            DataContext="{StaticResource StatusViewModel}"
+            DataContext="{StaticResource AppCodeViewModel}"
         >
 
             <Grid>

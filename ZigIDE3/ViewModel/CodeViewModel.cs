@@ -92,6 +92,8 @@ namespace ZigIDE3.ViewModel
 
         public string ZigFilePath => Path.Combine(Settings.Default.ZigPath, ZigFilename);
 
+        public string Status => Settings.Default.Status;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand SelectionChangedCommand { get; }
@@ -176,7 +178,10 @@ namespace ZigIDE3.ViewModel
         }
 
         public async void Compile()
-        {       
+        {
+            Settings.Default.Status = "...";
+            OnPropertyChanged(nameof(Status));
+
             this.Output=string.Empty;
 
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
@@ -190,6 +195,8 @@ namespace ZigIDE3.ViewModel
                 Settings.Default.ZigExeFilename = getExeNameFromZigFile(this.ZigFilename);
                 OnPropertyChanged(nameof(ZigExeFilename));
                 // todo benachrichtigen, dass das Kompilieren geklappt hat
+                Settings.Default.Status = "OK";
+                OnPropertyChanged(nameof(Status));
             }
             else
             {
@@ -204,18 +211,7 @@ namespace ZigIDE3.ViewModel
             var exeName = zigFilename.Substring(0, pos) + ".exe";
             return exeName;
         }
-
-        public string Status
-        {
-            get => _status;
-            set
-            {
-                if (value == _status) return;
-                _status = value;
-                OnPropertyChanged(nameof(Status));
-            }
-        }
-
+        
         public async void Run()
         {
             var arguments = "";
@@ -366,6 +362,11 @@ namespace ZigIDE3.ViewModel
                 // Nicht erlaubte Aktion (zeigt einen "Verboten"-Cursor)
             }
             e.Handled = true; // Gibt an, dass das Ereignis behandelt wurde
+        }
+
+        internal void ChangeZigPath(string nachricht)
+        {
+            throw new NotImplementedException();
         }
     }
 

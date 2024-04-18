@@ -5,9 +5,9 @@ using ZigIDE3.Properties;
 
 namespace ZigIDE3.ViewModel
 {
-    public class StatusViewModel : INotifyPropertyChanged
+    public class _StatusViewModel : INotifyPropertyChanged
     {
-        public StatusViewModel()
+        public _StatusViewModel()
         {
             zigPath = Settings.Default.ZigPath;
         }
