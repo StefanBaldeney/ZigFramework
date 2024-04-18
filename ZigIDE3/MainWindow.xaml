@@ -174,11 +174,12 @@
             </Label>
 
             <Label ToolTip="ZigExeFile"
-                   Tag="ExeFile"
+                   Visibility="Hidden"
+                   Tag="_ExeFile"
                    Grid.Column="2"
                    MinWidth="60"
                    Width="Auto"
-                   Content="{Binding ZigExeFile}"></Label>                
+                   Content="{Binding ZigExeFilename}"></Label>                
             
             <ComboBox 
                 Visibility="Hidden"
@@ -188,7 +189,7 @@
                 MinWidth="120">
             </ComboBox>
 
-            <TextBlock Grid.Column="3" Text="{Binding ZigExeFile}"></TextBlock>
+            <TextBlock Grid.Column="3" Text="{Binding ZigExeFilename}"></TextBlock>
 
         </StatusBar>
 
