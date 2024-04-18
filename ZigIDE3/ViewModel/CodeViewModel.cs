@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -175,8 +176,8 @@ namespace ZigIDE3.ViewModel
         }
 
         public async void Compile()
-        {
-            
+        {       
+            this.Output=string.Empty;
 
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
             var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
@@ -186,9 +187,8 @@ namespace ZigIDE3.ViewModel
             if (ausgabe.Item2.Equals(string.Empty))
             {
                 this.Errors = null;
-                var exeFile = getExeNameFromZigFile(this.ZigFilename);
-                this.ZigExeFilename = exeFile;
-                Settings.Default.ZigExeFilename = exeFile;
+                Settings.Default.ZigExeFilename = getExeNameFromZigFile(this.ZigFilename);
+                OnPropertyChanged(nameof(ZigExeFilename));
                 // todo benachrichtigen, dass das Kompilieren geklappt hat
             }
             else
@@ -228,19 +228,12 @@ namespace ZigIDE3.ViewModel
             Console.WriteLine("Fehler: " + result.Item2);
         }
 
-        public string ZigExeFilename
-        {
-            get => _zigExeFilename;
-            set
-            {
-                if (value == _zigExeFilename) return;
-                _zigExeFilename = value;
-                OnPropertyChanged(nameof(ZigExeFilename));
-            }
-        }
-
+        public string ZigExeFilename => Settings.Default.ZigExeFilename;
+        
         public async Task<Tuple<string, string>> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
+            Thread.Sleep(1000);
+
             // Konfiguriere die Startinformationen des Prozesses
             ProcessStartInfo startInfo = new ProcessStartInfo()
             {

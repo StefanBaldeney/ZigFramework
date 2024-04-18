@@ -33,8 +33,7 @@
                 <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding MenuClipboardCommand}"/>
                 <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding MenuClipboardCommand}"/>
             </MenuItem>
-
-                <MenuItem Header="Erstellen">
+            <MenuItem Header="Erstellen">
                 <MenuItem 
                               Header="Compile" 
                               Command="{Binding MenuCompileCommand}">
@@ -75,7 +74,8 @@
             <MenuItem Header="Extras">
                 <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Git" IsEnabled="False"></MenuItem>
+            <MenuItem Header="Git" 
+                      IsEnabled="False"></MenuItem>
             <MenuItem Header="Hilfe">
 
                 <MenuItem Header="Zig Dokumentation" Command="{Binding MenuZigDocumentationCommand}">
@@ -94,17 +94,15 @@
 
         <ToolBar  
                 Height="36"
-                DockPanel.Dock="Top"
-            >
-                <Button 
+                DockPanel.Dock="Top">
+                <Button Tag="Save"
                     Margin="2"
                     Width="32" Height="32" Command="{Binding MenuZigSaveCommand}">
                     <Button.Content>
                         <ContentControl Content="{StaticResource SvgSave}"/>
                     </Button.Content>
                 </Button>
-
-                <Button 
+                <Button Tag="Compile"
                     Margin="2"
                     Width="32" Height="32" Command="{Binding MenuCompileCommand}">
                     <Button.Content>
@@ -118,15 +116,14 @@
                         </ContextMenu>
                     </Button.ContextMenu>
             </Button>
-                <Button 
+                <Button Tag="Run"
                     Margin="2"
                     Width="32" Height="32" Command="{Binding MenuRunCommand}">
                     <Button.Content>
                         <ContentControl Content="{StaticResource SvgRun}"/>
                     </Button.Content>
             </Button>
-
-                <Button 
+                <Button Tag="Test"
                     Margin="2"
                     Width="32" Height="32" Command="{Binding MenuTestCommand}">
                     <Button.Content>
@@ -134,9 +131,10 @@
                     </Button.Content>
                 </Button>
 
+            <!-- funktioniert nicht -->
             <ContentControl Width="Auto" Background="Gray"  HorizontalAlignment="Stretch"/>
 
-            <Button  
+            <Button Tag="German"
                   Margin="2"
                   IsEnabled="False"
                   Width="32" Height="32" Command="{Binding MenuGermanCommand}">
@@ -168,13 +166,22 @@
                    Content="{Binding Status}"
             ></Label>
 
-            <Label Grid.Column="1"
+            <Label Tag="ZigPath"
+                   Grid.Column="1"
                    MinWidth="40"
                    Width="Auto"
                    Content="{Binding ZigPath}">
             </Label>
 
+            <Label ToolTip="ZigExeFile"
+                   Tag="ExeFile"
+                   Grid.Column="2"
+                   MinWidth="60"
+                   Width="Auto"
+                   Content="{Binding ZigExeFile}"></Label>                
+            
             <ComboBox 
+                Visibility="Hidden"
                 Grid.Column="2"
                 DataContext="{StaticResource CommandVM}"
                 ItemsSource="{Binding Befehle}"

@@ -141,7 +141,7 @@ namespace ZigIDE3
                     Settings.Default.ReleaseType = "ReleaseSafe";
                     break;
                 default:
-                    Settings.Default.ReleaseType = "ReleaseDebug";
+                    Settings.Default.ReleaseType = "Debug";
                     break;
             }
 
