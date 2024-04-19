@@ -7,11 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using ZigIDE3.Properties;
 using ZigIDE3.Tool;
+using static System.Net.Mime.MediaTypeNames;
+using Clipboard = System.Windows.Clipboard;
+using DataFormats = System.Windows.DataFormats;
+using DragDropEffects = System.Windows.DragDropEffects;
+using DragEventArgs = System.Windows.DragEventArgs;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ZigIDE3.ViewModel
 {
@@ -19,12 +25,17 @@ namespace ZigIDE3.ViewModel
     {
         public CodeViewModel()
         {
-            var path = Settings.Default.ZigPath;
-
             SelectionChangedCommand = new RelayCommand(ExecuteLoadFileCommand);
-
             CodeClipboardCommand = new RelayCommand(ExecuteClipboardCommand);
+            RefreshCommand = new RelayCommand(ExecuteRefresh);
+            
 
+            ExecuteRefresh(null);
+        }
+
+        private void ExecuteRefresh(object obj)
+        {
+            var path = Settings.Default.ZigPath;
             if (Directory.Exists(path))
             {
                 try
@@ -37,7 +48,6 @@ namespace ZigIDE3.ViewModel
                 }
             }
         }
-
 
         // todo clipboard implementieren
         private void ExecuteClipboardCommand(object obj)
@@ -97,7 +107,9 @@ namespace ZigIDE3.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand SelectionChangedCommand { get; }
-        
+
+        public ICommand RefreshCommand { get; }
+
         public ICommand CodeClipboardCommand { get; }
 
         private string _sourceCode;
@@ -179,8 +191,7 @@ namespace ZigIDE3.ViewModel
 
         public async void Compile()
         {
-            Settings.Default.Status = "...";
-            OnPropertyChanged(nameof(Status));
+            SetStatus("wait..");
 
             this.Output=string.Empty;
 
@@ -195,14 +206,21 @@ namespace ZigIDE3.ViewModel
                 Settings.Default.ZigExeFilename = getExeNameFromZigFile(this.ZigFilename);
                 OnPropertyChanged(nameof(ZigExeFilename));
                 // todo benachrichtigen, dass das Kompilieren geklappt hat
-                Settings.Default.Status = "OK";
-                OnPropertyChanged(nameof(Status));
+                
+                SetStatus("OK");
             }
             else
             {
                 this.Errors = ausgabe.Item2;
+                SetStatus("see Errors");
             }
             Console.WriteLine("Error: " + ausgabe.Item2);
+        }
+
+        private void SetStatus(string message)
+        {
+            Settings.Default.Status = message;
+            OnPropertyChanged(nameof(Status));
         }
 
         private string getExeNameFromZigFile(string zigFilename)
@@ -219,7 +237,8 @@ namespace ZigIDE3.ViewModel
             var result = await StarteProzessMitArgumentenUndLeseAusgabeAsync(exeFile, arguments);
 
             this.Output = result.Item1;
-            
+            this.Errors = result.Item2; 
+
             Console.WriteLine("Output: " + result.Item1);
             Console.WriteLine("Fehler: " + result.Item2);
         }
@@ -228,7 +247,7 @@ namespace ZigIDE3.ViewModel
         
         public async Task<Tuple<string, string>> StarteProzessMitArgumentenUndLeseAusgabeAsync(string pfadZumProgramm, string argumente)
         {
-            Thread.Sleep(250);
+            Thread.Sleep(1);
 
             // Konfiguriere die Startinformationen des Prozesses
             ProcessStartInfo startInfo = new ProcessStartInfo()
@@ -239,7 +258,9 @@ namespace ZigIDE3.ViewModel
                 UseShellExecute = false, // Ermöglicht die Umleitung der Standardausgabe
                 RedirectStandardOutput = true, // Leitet die Standardausgabe um, sodass sie gelesen werden kann
                 RedirectStandardError = true,
-                CreateNoWindow = true // Verhindert das Erstellen eines Fensters für den Prozess
+                CreateNoWindow = true, // Verhindert das Erstellen eines Fensters für den Prozess
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
             };
 
             // Erstelle und starte den Prozess
@@ -264,9 +285,7 @@ namespace ZigIDE3.ViewModel
         private string _zigFilename = string.Empty  ;
         private string _output="default";
         private string _errors;
-        private string _status;
-        private string _zigExeFilename;
-        
+                
         public IEnumerable<FileInfo> DateiListe => dateiListe;
 
         public string Output
@@ -280,7 +299,7 @@ namespace ZigIDE3.ViewModel
             }
         }
 
-        private void saveSourceCode()
+        private async void saveSourceCode()
         {
             var currentFile = Settings.Default.CurrentZigFilename;
             if (string.IsNullOrEmpty(currentFile)) return;
@@ -289,11 +308,12 @@ namespace ZigIDE3.ViewModel
             {
                 var path = Path.Combine(Settings.Default.ZigPath, currentFile);
 
-                using (StreamWriter sw = new StreamWriter(path))
+                using (StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8))
                 {
                     var buffer = this.SourceCode.ToCharArray();
-                    sw.WriteAsync(buffer);
+                    await writer.WriteAsync(buffer);
                 }
+
             }
             catch (Exception ex)
             {

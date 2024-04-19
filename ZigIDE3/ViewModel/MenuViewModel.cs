@@ -103,13 +103,10 @@ namespace ZigIDE3.ViewModel
             switch (option)
             {
                 case "Cut":
-
                     break;
             }
 
-
-
-            }
+        }
 
             private void ExecuteZigSaveCommand(object obj)
         {

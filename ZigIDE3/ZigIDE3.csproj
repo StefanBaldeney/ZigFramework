@@ -100,9 +100,11 @@
     <Compile Include="Control\Fehlerliste.xaml.cs">
       <DependentUpon>Fehlerliste.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\Fehlermeldung.cs" />
     <Compile Include="Control\Output.xaml.cs">
       <DependentUpon>Output.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\ZigErrorValueConverter.cs" />
     <Compile Include="Ressource\resource.de-DE.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -120,7 +122,6 @@
     <Compile Include="Tool\RelayCommand.cs" />
     <Compile Include="ViewModel\MyEventArgs.cs" />
     <Compile Include="ViewModel\OutputViewModel.cs" />
-    <Compile Include="ViewModel\StatusViewModel.cs" />
     <Page Include="Control\Fehlerliste.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

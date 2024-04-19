@@ -1,18 +1,15 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq.Expressions;
-using System.Net.Configuration;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ZigIDE3.Properties;
 using ZigIDE3.ViewModel;
 
@@ -49,7 +46,6 @@ namespace ZigIDE3
             this.Left = Math.Max(0, left); 
 
             vmMenu = MyMenu.DataContext as MenuViewModel;
-            //vmStatus = MyStatus.DataContext as StatusViewModel;
             vmCode = MyCode.DataContext as CodeViewModel;
 
             vmMenu.ZigPathChanged += VmMenu_ZigPathChanged;
@@ -57,9 +53,10 @@ namespace ZigIDE3
             vmMenu.ZigFileRun += VmCode_ZigRun;
             
             vmMenu.ZigFileSave += VmMenuOnZigFileSave;
-
             vmMenu.ZigTestRunner += VmMenuZigTestRunner;
 
+
+            
             // Avalon
             string resourceName = "ZigIDE3.avalon.Zig.xshd";
 

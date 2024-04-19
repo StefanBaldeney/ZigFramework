@@ -12,21 +12,19 @@
         <local:ZigErrorValueConverter x:Key="ZigConverter"/>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <!--<StackPanel Orientation="Horizontal">
-            <Label Width="68">Fehlerliste</Label>
-            <Label MinWidth="12">_______________________________________________________________________________________________________________________________________________________</Label>
-        </StackPanel>-->
+        
         <GroupBox Header="Fehlermeldungen">
             <ListBox 
                 SelectionChanged="OnContentChanged"
-                ItemsSource="{Binding Errors, Converter={StaticResource ZigConverter}}"
+                ItemsSource="{Binding Errors, Converter={StaticResource ZigConverter}}" 
+                d:ItemsSource="{d:SampleData ItemCount=5}"
             >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition MinWidth="5" Width="40"/>
+                                <ColumnDefinition MinWidth="5" Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding Zeile}" />

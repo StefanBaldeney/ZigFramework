@@ -14,7 +14,6 @@
         <local:CodeViewModel x:Key="CodeVM"/>
         <local:CommandViewModel x:Key="CommandVM"/>
         <local:MenuViewModel x:Key="MenuVM"/>
-        <!--<local:StatusViewModel x:Key="StatusViewModel"/>-->
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource MenuVM}">
@@ -162,9 +161,8 @@
             </Grid>
 
             <Label ToolTip="Status"
-                   Grid.Column="0"
-                   MinWidth="40"
-                   Width="60"
+                   MinWidth="80"
+                   Width="80"
                    Content="{Binding Status}"
             ></Label>
 
@@ -227,6 +225,11 @@
                                                    />
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Aktualisieren" Command="{Binding RefreshCommand}"></MenuItem>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                     </ListBox>
 
                     <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" ResizeBehavior="PreviousAndNext"/>
