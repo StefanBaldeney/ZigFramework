@@ -1,4 +1,6 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
+﻿using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System;
 using System.Collections.Generic;
@@ -10,8 +12,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+using ICSharpCode.AvalonEdit.Document;
 using ZigIDE3.Properties;
 using ZigIDE3.ViewModel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Windows.Threading;
 
 namespace ZigIDE3
 {
@@ -85,15 +90,52 @@ namespace ZigIDE3
                 }
             }
 
+            // folding
+            
+            // Annehmen, dass "textEditor" Ihre Instanz von TextEditor ist
+            _foldingManager = FoldingManager.Install(Avalon.TextArea);
+            _foldingUpdateTimer = new DispatcherTimer();
+            
             Avalon.CaretOffset = 0;
             Avalon.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             Avalon.Drop += Avalon_Drop;
             Avalon.DragEnter += AvalonOnDragEnter;
 
+            SetupFolding();
 
         }
 
-        private void AvalonOnDragEnter(object sender, DragEventArgs e)
+        void SetupFolding()
+        {
+            _foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
+            _foldingUpdateTimer.Tick += (sender, e) => UpdateFoldings();
+            _foldingUpdateTimer.Start();
+        }
+        
+        void UpdateFoldings()
+        {
+            List<NewFolding> newFoldings = new List<NewFolding>();
+            int start = -1;
+            var document = Avalon.Document;
+            for (int i = 0; i < document.TextLength; i++)
+            {
+                char c = document.GetCharAt(i);
+                if (c == '{')
+                {
+                    start = i;
+                }
+                else if (c == '}' && start != -1)
+                {
+                    newFoldings.Add(new NewFolding(start, i + 1));
+                    start = -1;
+                }
+            }
+
+            this._foldingManager.UpdateFoldings(newFoldings, -1);
+        }
+
+
+    private void AvalonOnDragEnter(object sender, DragEventArgs e)
         {
             vmCode.DragEnter(e);
         }
@@ -242,6 +284,9 @@ namespace ZigIDE3
         //private StatusViewModel vmStatus;
         private CodeViewModel vmCode;
         
+        private FoldingManager _foldingManager;
+        private DispatcherTimer _foldingUpdateTimer;
+
         public string SourceCode
         {
             get { return GetContent(); }
@@ -303,4 +348,32 @@ namespace ZigIDE3
             return true;
         }
     }
+    
+    //public class BraceFoldingStrategy : AbstractFoldingStrategy
+    //{
+    //    public override IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
+    //    {
+    //        firstErrorOffset = -1;
+    //        List<NewFolding> newFoldings = new List<NewFolding>();
+
+    //        var startOffsets = new Stack<int>();
+    //        for (int i = 0; i < document.TextLength; i++)
+    //        {
+    //            char c = document.GetCharAt(i);
+    //            if (c == '{')
+    //            {
+    //                startOffsets.Push(i);
+    //            }
+    //            else if (c == '}' && startOffsets.Count > 0)
+    //            {
+    //                int startOffset = startOffsets.Pop();
+    //                newFoldings.Add(new NewFolding(startOffset, i + 1));
+    //            }
+    //        }
+
+    //        newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+    //        return newFoldings;
+    //    }
+    //}
+
 }

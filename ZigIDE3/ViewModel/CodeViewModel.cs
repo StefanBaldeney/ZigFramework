@@ -7,12 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using ZigIDE3.Properties;
 using ZigIDE3.Tool;
-using static System.Net.Mime.MediaTypeNames;
 using Clipboard = System.Windows.Clipboard;
 using DataFormats = System.Windows.DataFormats;
 using DragDropEffects = System.Windows.DragDropEffects;
@@ -29,7 +26,6 @@ namespace ZigIDE3.ViewModel
             CodeClipboardCommand = new RelayCommand(ExecuteClipboardCommand);
             RefreshCommand = new RelayCommand(ExecuteRefresh);
             
-
             ExecuteRefresh(null);
         }
 
@@ -79,6 +75,8 @@ namespace ZigIDE3.ViewModel
 
         private void ExecuteLoadFileCommand(object obj)
         {
+            if (obj is null) return;
+
             var zigPath = Settings.Default.ZigPath;
 
             this.ZigFilename = (obj as FileInfo).Name;
