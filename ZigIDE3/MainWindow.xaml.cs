@@ -1,24 +1,21 @@
 ﻿using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using System.Xml;
-using ICSharpCode.AvalonEdit.Document;
 using ZigIDE3.Properties;
 using ZigIDE3.ViewModel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using System.Windows.Threading;
-using System.Linq;
 
 namespace ZigIDE3
 {
@@ -426,6 +423,20 @@ namespace ZigIDE3
             field = value;
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var header = ((System.Windows.Controls.HeaderedItemsControl)e.OriginalSource).Header;
+            switch (header)
+            {
+                case "Alles einklappen":
+                    this.AllesEinklappen();
+                    break;
+                case "Alles ausklappen":
+                    this.AllesAusklappen();
+                    break;
+            }
         }
     }
     
