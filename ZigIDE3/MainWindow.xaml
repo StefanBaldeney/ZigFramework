@@ -260,6 +260,10 @@
                                     <MenuItem Header="Cut" CommandParameter="Cut" Command="{Binding CodeClipboardCommand}"/>
                                     <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding CodeClipboardCommand}"/>
                                     <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding CodeClipboardCommand}"/>
+                                    <MenuItem Header="---"/>
+                                    <MenuItem Header="Alles einklappen" CommandParameter="Alles Einklappen" Command="{Binding CodeEinklappenCommand}"/>
+                                    <MenuItem Header="Alles ausklappen" CommandParameter="Paste" Command="{Binding CodeAusklappenCommand}"/>
+
                                 </ContextMenu>
                             </avalonedit:TextEditor.ContextMenu>
                         </avalonedit:TextEditor>

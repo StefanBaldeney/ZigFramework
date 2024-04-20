@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
@@ -17,6 +18,7 @@ using ZigIDE3.Properties;
 using ZigIDE3.ViewModel;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace ZigIDE3
 {
@@ -114,28 +116,106 @@ namespace ZigIDE3
         
         void UpdateFoldings()
         {
-            List<NewFolding> newFoldings = new List<NewFolding>();
-            int start = -1;
+            var newFoldings = new List<NewFolding>();
             var document = Avalon.Document;
-            for (int i = 0; i < document.TextLength; i++)
+            var startOffsets = new Stack<int>();
+            var lineStarts = new Stack<int>();
+
+            for (int offset = 0; offset < document.TextLength; offset++)
             {
-                char c = document.GetCharAt(i);
+                char c = document.GetCharAt(offset);
                 if (c == '{')
                 {
-                    start = i;
+                    startOffsets.Push(offset);
+                    lineStarts.Push(document.GetLineByOffset(offset).LineNumber);
                 }
-                else if (c == '}' && start != -1)
+                else if (c == '}' && startOffsets.Count > 0)
                 {
-                    newFoldings.Add(new NewFolding(start, i + 1));
-                    start = -1;
+                    int startOffset = startOffsets.Pop();
+                    int startLine = lineStarts.Pop();
+                    int endLine = document.GetLineByOffset(offset).LineNumber;
+
+                    if (endLine > startLine) // Ensure that the braces span more than one line
+                    {
+                        newFoldings.Add(new NewFolding(startOffset, offset + 1));
+                    }
                 }
             }
 
-            this._foldingManager.UpdateFoldings(newFoldings, -1);
+            // Sort the foldings by start offset
+            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+
+            _foldingManager.UpdateFoldings(newFoldings, -1);
+        }
+
+        #region ChatGPT_Folding
+
+        public class FoldingState
+        {
+            public int StartOffset { get; set; }
+            public int EndOffset { get; set; }
+            public bool IsFolded { get; set; }
+        }
+
+        void SerializeFoldingStates(string filePath, List<FoldingState> states)
+        {
+            // todo Json
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(states, options);
+            File.WriteAllText(filePath, jsonString);
+        }
+
+        List<FoldingState> DeserializeFoldingStates(string filePath)
+        {
+            string jsonString = File.ReadAllText(filePath);
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            return JsonSerializer.Deserialize<List<FoldingState>>(jsonString, options);
+        }
+
+        void AllesEinklappen()
+        {
+            // Zum Einklappen aller Abschnitte
+            foreach (var folding in _foldingManager.AllFoldings)
+            {
+                folding.IsFolded = true;
+            }
+        }
+
+        void AllesAusklappen()
+        {
+            foreach (var folding in _foldingManager.AllFoldings)
+            {
+                folding.IsFolded = false;
+            }
         }
 
 
-    private void AvalonOnDragEnter(object sender, DragEventArgs e)
+        void ApplyFoldingStates(FoldingManager manager, List<FoldingState> states)
+        {
+            manager.UpdateFoldings(states.Select(s => new NewFolding(s.StartOffset, s.EndOffset)
+            {
+                // IsFolded = s.IsFolded
+            }).ToList(), -1);
+        }
+
+        List<FoldingState> CaptureFoldingStates(FoldingManager manager)
+        {
+            var states = new List<FoldingState>();
+            foreach (var folding in manager.AllFoldings)
+            {
+                states.Add(new FoldingState
+                {
+                    StartOffset = folding.StartOffset,
+                    EndOffset = folding.EndOffset,
+                    IsFolded = folding.IsFolded
+                });
+            }
+            return states;
+        }
+
+        #endregion
+
+        private void AvalonOnDragEnter(object sender, DragEventArgs e)
         {
             vmCode.DragEnter(e);
         }
