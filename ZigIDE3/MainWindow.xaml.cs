@@ -58,8 +58,6 @@ namespace ZigIDE3
             
             vmMenu.ZigFileSave += VmMenuOnZigFileSave;
             vmMenu.ZigTestRunner += VmMenuZigTestRunner;
-
-
             
             // Avalon
             string resourceName = "ZigIDE3.avalon.Zig.xshd";

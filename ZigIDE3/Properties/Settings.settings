@@ -35,5 +35,8 @@
     <Setting Name="Status" Type="System.String" Scope="User">
       <Value Profile="(Default)">Bereit</Value>
     </Setting>
+    <Setting Name="Language" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

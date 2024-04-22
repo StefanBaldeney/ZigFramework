@@ -246,28 +246,49 @@
 
                         <!-- Editor -->
                         <!-- Anmerkungen: AllowDrop eigentlich nicht notwendig -->
-                        <avalonedit:TextEditor 
-                            AllowDrop="True"
-                            x:Name ="Avalon"
-                            Grid.Row="0" 
-                            ShowLineNumbers="True"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            <b:Interaction.Behaviors>
-                                <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
-                            </b:Interaction.Behaviors>
-                            <avalonedit:TextEditor.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Cut" CommandParameter="Cut" Command="{Binding CodeClipboardCommand}"/>
-                                    <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding CodeClipboardCommand}"/>
-                                    <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding CodeClipboardCommand}"/>
-                                    <MenuItem Header="---"/>
-                                    <MenuItem Header="Alles einklappen" Click="MenuItem_OnClick"/>
-                                    <MenuItem Header="Alles ausklappen" Click="MenuItem_OnClick"/>
+                        <TabControl x:Name="EditorTabs">
+                            <TabItem Header="Zig">
+                                <avalonedit:TextEditor 
+                                    AllowDrop="True"
+                                    x:Name ="Avalon"
+                                    Grid.Row="0" 
+                                    ShowLineNumbers="True"
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <b:Interaction.Behaviors>
+                                        <zigIde3:BindableTextEditorBehavior Text="{Binding SourceCode}" />
+                                    </b:Interaction.Behaviors>
+                                    <avalonedit:TextEditor.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Cut" CommandParameter="Cut" Command="{Binding CodeClipboardCommand}"/>
+                                            <MenuItem Header="Copy" CommandParameter="Copy" Command="{Binding CodeClipboardCommand}"/>
+                                            <MenuItem Header="Paste" CommandParameter="Paste" Command="{Binding CodeClipboardCommand}"/>
+                                            <MenuItem Header="---"/>
+                                            <MenuItem Header="Alles einklappen" Click="MenuItem_OnClick"/>
+                                            <MenuItem Header="Alles ausklappen" Click="MenuItem_OnClick"/>
 
-                                </ContextMenu>
-                            </avalonedit:TextEditor.ContextMenu>
-                        </avalonedit:TextEditor>
-
+                                        </ContextMenu>
+                                    </avalonedit:TextEditor.ContextMenu>
+                                </avalonedit:TextEditor>
+                            </TabItem>
+                            <TabItem Header="Zag">
+                                <avalonedit:TextEditor 
+                                    AllowDrop="False"
+                                    x:Name ="Avalon2"
+                                    Grid.Row="0" 
+                                    ShowLineNumbers="True"
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                    <b:Interaction.Behaviors>
+                                        <zigIde3:BindableTextEditorBehavior Text="{Binding Code2}" />
+                                    </b:Interaction.Behaviors>
+                                    <avalonedit:TextEditor.ContextMenu>
+                                        <ContextMenu>
+                                        </ContextMenu>
+                                    </avalonedit:TextEditor.ContextMenu>
+                                </avalonedit:TextEditor>
+                            </TabItem>
+                            <!-- Weitere Tabs können hier hinzugefügt werden -->
+                        </TabControl>
+                       
                         <GridSplitter Grid.Row="1" 
                                   HorizontalAlignment="Stretch" 
                                   ResizeBehavior="PreviousAndNext"
