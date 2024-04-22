@@ -270,15 +270,18 @@
                                     </avalonedit:TextEditor.ContextMenu>
                                 </avalonedit:TextEditor>
                             </TabItem>
-                            <TabItem Header="Zag">
+                            <TabItem Header="Zag"
+                                     DataContext="{StaticResource SnippetsViewModel}"
+                                     ToolTip="für code snippets"
+                                     >
                                 <avalonedit:TextEditor 
                                     AllowDrop="False"
-                                    x:Name ="Avalon2"
+                                    x:Name ="Avalon4Snippet"
                                     Grid.Row="0" 
                                     ShowLineNumbers="True"
                                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                                     <b:Interaction.Behaviors>
-                                        <zigIde3:BindableTextEditorBehavior Text="{Binding Code2}" />
+                                        <zigIde3:BindableTextEditorBehavior Text="{Binding Snippets}" />
                                     </b:Interaction.Behaviors>
                                     <avalonedit:TextEditor.ContextMenu>
                                         <ContextMenu>
@@ -286,7 +289,6 @@
                                     </avalonedit:TextEditor.ContextMenu>
                                 </avalonedit:TextEditor>
                             </TabItem>
-                            <!-- Weitere Tabs können hier hinzugefügt werden -->
                         </TabControl>
                        
                         <GridSplitter Grid.Row="1" 
@@ -316,7 +318,6 @@
                                 Grid.Column="2" />
 
                         </Grid>
-
                     </Grid>
                 </Grid>
             </Grid>

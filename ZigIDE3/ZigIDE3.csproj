@@ -144,6 +144,7 @@
     <Compile Include="Tool\RelayCommand.cs" />
     <Compile Include="ViewModel\MyEventArgs.cs" />
     <Compile Include="ViewModel\OutputViewModel.cs" />
+    <Compile Include="ViewModel\SnippetsViewModel.cs" />
     <Page Include="Control\Fehlerliste.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
