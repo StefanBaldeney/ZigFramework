@@ -170,10 +170,12 @@ namespace ZigIDE3.ViewModel
         {
             var args = "version";
 
+            var command = Path.Combine(Settings.Default.ZigExePath, "zig");
+
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 WorkingDirectory = Properties.Settings.Default.ZigPath,
-                FileName = "zig",
+                FileName = command,
                 Arguments = args,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -207,7 +209,7 @@ namespace ZigIDE3.ViewModel
         {
             try
             {
-                Process.Start("https://ziglang.org/documentation/0.11.0");
+                Process.Start("https://ziglang.org/documentation/0.12.0");
             }
             catch (Exception ex)
             {

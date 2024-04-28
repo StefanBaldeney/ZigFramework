@@ -14,6 +14,7 @@
         <local:CodeViewModel x:Key="CodeVM"/>
         <local:CommandViewModel x:Key="CommandVM"/>
         <local:MenuViewModel x:Key="MenuVM"/>
+        <local:SnippetsViewModel x:Key="SnippetsVM"/>
     </Window.Resources>
 
     <DockPanel DataContext="{StaticResource MenuVM}">
@@ -95,6 +96,7 @@
                 Height="36"
                 DockPanel.Dock="Top">
                 <Button Tag="Save"
+                    ToolTip="speichere Zig"
                     Margin="2"
                     Width="32" Height="32" Command="{Binding MenuZigSaveCommand}">
                     <Button.Content>
@@ -271,7 +273,7 @@
                                 </avalonedit:TextEditor>
                             </TabItem>
                             <TabItem Header="Zag"
-                                     DataContext="{StaticResource SnippetsViewModel}"
+                                     DataContext="{StaticResource SnippetsVM}"
                                      ToolTip="für code snippets"
                                      >
                                 <avalonedit:TextEditor 

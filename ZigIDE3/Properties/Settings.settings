@@ -38,5 +38,8 @@
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ZigExePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Zig0.11</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

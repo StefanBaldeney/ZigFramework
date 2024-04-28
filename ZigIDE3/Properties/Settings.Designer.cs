@@ -166,5 +166,17 @@ namespace ZigIDE3.Properties {
                 this["Language"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Zig0.11")]
+        public string ZigExePath {
+            get {
+                return ((string)(this["ZigExePath"]));
+            }
+            set {
+                this["ZigExePath"] = value;
+            }
+        }
     }
 }

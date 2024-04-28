@@ -196,7 +196,9 @@ namespace ZigIDE3.ViewModel
             var releaseArgument= " -O " + Settings.Default.ReleaseType;
             var arguments = " build-exe " + this.ZigFilename + " " + releaseArgument;
 
-            var ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+            var zigExe = Path.Combine(Settings.Default.ZigExePath, "zig");
+
+            var ausgabe = await StarteProzessMitArgumentenUndLeseAusgabeAsync(zigExe, arguments);
 
             if (ausgabe.Item2.Equals(string.Empty))
             {
