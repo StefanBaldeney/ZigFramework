@@ -329,7 +329,10 @@ namespace ZigIDE3.ViewModel
 
             var arguments = " test " + absoluteZigFile;
             // var exeFile = Path.Combine(Settings.Default.);
-            var result = await StarteProzessMitArgumentenUndLeseAusgabeAsync("zig", arguments);
+
+            var path = Path.Combine(Settings.Default.ZigExePath, "zig");
+            
+            var result = await StarteProzessMitArgumentenUndLeseAusgabeAsync(path, arguments);
 
             this.Output = result.Item2;
             //this.Errors = result.Item2;
@@ -386,7 +389,6 @@ namespace ZigIDE3.ViewModel
 
         internal void ChangeZigPath(string nachricht)
         {
-            throw new NotImplementedException();
         }
     }
 

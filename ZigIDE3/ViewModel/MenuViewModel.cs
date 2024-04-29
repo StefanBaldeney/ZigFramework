@@ -4,13 +4,8 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using ZigIDE3.Interface;
 using ZigIDE3.Properties;
 using ZigIDE3.Tool;
 using MessageBox = System.Windows.MessageBox;
@@ -22,6 +17,9 @@ namespace ZigIDE3.ViewModel
         private string _output = "output";
         public ICommand MenuBeendenCommand { get; }
         public ICommand MenuOptionsCommand { get; }
+
+        public ICommand MenuOptionsPathZigExeCommand { get; }
+
         public ICommand MenuCompileCommand { get; }
         public ICommand MenuVersionCommand { get; }
         public ICommand MenuRunCommand { get; }
@@ -69,6 +67,7 @@ namespace ZigIDE3.ViewModel
         {
             MenuBeendenCommand = new RelayCommand(ExecuteBeendenCommand);
             MenuOptionsCommand = new RelayCommand(ExecuteOptionsCommand);
+            MenuOptionsPathZigExeCommand = new RelayCommand(ExecutePath2Zig);
             MenuCompileCommand = new RelayCommand(ExecuteCompileCommand);
 
             MenuRunCommand = new RelayCommand(ExecuteRunCommand);
@@ -95,7 +94,7 @@ namespace ZigIDE3.ViewModel
             
             //this.ZigFileSave += OnZigFileSave;
         }
-
+        
         private void ExecuteClipboard(object obj)
         {
             var option = obj.ToString();
@@ -276,6 +275,23 @@ namespace ZigIDE3.ViewModel
             }
 
         }
+
+        private void ExecutePath2Zig(object obj)
+        {
+            var dialog = new FolderBrowserDialog();
+            dialog.Description = "path 2 zig exe";
+            var path = Settings.Default.ZigExePath;
+
+            dialog.SelectedPath = path;
+
+            var result = dialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Settings.Default.ZigExePath = dialog.SelectedPath;
+                OnMeinEventMitDaten(new MyEventArgs() { Nachricht = "zigexe:" + dialog.SelectedPath });
+            }
+        }
+
 
         private void ExecuteRunCommand(object parameter)
         {

@@ -72,7 +72,10 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Extras">
-                <MenuItem Header="Optionen" Command="{Binding MenuOptionsCommand}"></MenuItem>
+                <MenuItem Header="Optionen">
+                    <MenuItem Header="path zu zig" Command="{Binding MenuOptionsPathZigExeCommand}"></MenuItem>
+                    <MenuItem Header="path zu source code" Command="{Binding MenuOptionsCommand}"></MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Git" 
                       IsEnabled="False"></MenuItem>
